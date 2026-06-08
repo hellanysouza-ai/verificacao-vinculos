@@ -7,339 +7,226 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --gold: #C9913A;
-    --gold-light: #C9A84C;
-    --gold-pale: #f5e8d0;
-    --purple: #4A2050;
-    --purple-mid: #7B3A6E;
-    --purple-light: #f3eaf5;
-    --white: #F4F0F8;
-    --gray-50: #EDE8F2;
-    --gray-100: #E0D8E8;
-    --gray-200: #D8D5CF;
-    --gray-400: #9A9590;
-    --gray-600: #5C5852;
-    --gray-800: #2A2824;
-    --success: #2D7A4A;
-    --success-bg: #EAF5EE;
-    --danger: #B03030;
-    --danger-bg: #FAEAEA;
-    --warning: #8A5C00;
-    --warning-bg: #FDF4E0;
+    --gold: #C9913A; --gold-light: #C9A84C; --gold-pale: #f5e8d0;
+    --purple: #4A2050; --purple-mid: #7B3A6E; --purple-light: #f3eaf5;
+    --gray-50: #EDE8F2; --gray-100: #E0D8E8; --gray-200: #D8D5CF;
+    --gray-400: #9A9590; --gray-600: #5C5852; --gray-800: #2A2824;
+    --success: #2D7A4A; --success-bg: #EAF5EE;
+    --danger: #B03030;  --danger-bg: #FAEAEA;
+    --warning: #8A5C00; --warning-bg: #FDF4E0;
   }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; color:var(--gray-800); min-height:100vh;
+    background: linear-gradient(160deg,#EDE8F4 0%,#F8F4EC 60%,#F0EBF6 100%); }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  /* HEADER */
+  header { background:var(--purple); padding:0 40px; display:flex; align-items:center;
+    justify-content:space-between; height:64px; position:sticky; top:0; z-index:100;
+    box-shadow:0 2px 12px rgba(74,32,80,.18); }
+  .logo { display:flex; align-items:center; gap:12px; }
+  .logo-mark { width:36px; height:36px; background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    border-radius:8px; display:flex; align-items:center; justify-content:center;
+    font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:#fff; }
+  .logo-text { font-family:'Playfair Display',serif; color:#fff; font-size:17px; font-weight:600; }
+  .logo-sub { color:rgba(255,255,255,.5); font-size:11px; letter-spacing:1.5px; text-transform:uppercase; margin-top:1px; }
+  .header-badge { background:rgba(201,145,58,.18); border:1px solid rgba(201,145,58,.35);
+    border-radius:20px; padding:6px 14px; font-size:11.5px; color:var(--gold-light); font-weight:500; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: linear-gradient(160deg, #EDE8F4 0%, #F8F4EC 60%, #F0EBF6 100%); min-height: 100vh;
-    color: var(--gray-800);
-    min-height: 100vh;
-  }
+  /* MAIN */
+  main { max-width:900px; margin:0 auto; padding:40px 24px 60px; }
+  .page-title { font-family:'Playfair Display',serif; font-size:26px; font-weight:700; color:var(--purple); margin-bottom:4px; }
+  .page-subtitle { color:var(--gray-400); font-size:14px; margin-bottom:32px; }
 
-  header {
-    background: var(--purple);
-    padding: 0 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 2px 12px rgba(74,32,80,0.18);
-  }
+  /* CARD */
+  .card { background:#fff; border:1px solid var(--gray-100); border-radius:16px;
+    padding:26px 30px; margin-bottom:20px; box-shadow:0 1px 6px rgba(0,0,0,.05); }
+  .card-header { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+  .step-badge { width:28px; height:28px; border-radius:50%;
+    background:linear-gradient(135deg,var(--gold),var(--gold-light));
+    color:#fff; font-size:13px; font-weight:600; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .card-title { font-size:15px; font-weight:600; color:var(--gray-800); }
+  .card-sub { font-size:12px; color:var(--gray-400); margin-top:1px; }
 
-  .logo { display: flex; align-items: center; gap: 12px; }
-  .logo-mark {
-    width: 36px; height: 36px;
-    background: linear-gradient(135deg, var(--gold), var(--gold-light));
-    border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Playfair Display', serif;
-    font-size: 18px; font-weight: 700; color: white;
-  }
-  .logo-text { font-family: 'Playfair Display', serif; color: white; font-size: 17px; font-weight: 600; }
-  .logo-sub { font-family: 'DM Sans', sans-serif; color: rgba(255,255,255,0.5); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 1px; }
-  .header-badge {
-    background: rgba(201,145,58,0.18);
-    border: 1px solid rgba(201,145,58,0.35);
-    border-radius: 20px; padding: 6px 14px;
-    font-size: 11.5px; color: var(--gold-light); font-weight: 500; letter-spacing: 0.5px;
-  }
-
-  main { max-width: 860px; margin: 0 auto; padding: 40px 24px 60px; }
-
-  .page-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--purple); margin-bottom: 4px; }
-  .page-subtitle { color: var(--gray-400); font-size: 14px; margin-bottom: 36px; }
-
-  .card {
-    background: white;
-    border: 1px solid var(--gray-100);
-    border-radius: 16px;
-    padding: 28px 32px;
-    margin-bottom: 24px;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-  }
-
-  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
-  .step-badge {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--gold), var(--gold-light));
-    color: white; font-size: 13px; font-weight: 600;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .card-title { font-size: 15px; font-weight: 600; color: var(--gray-800); }
+  /* BASES GRID */
+  .bases-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
 
   /* UPLOAD */
-  .upload-zone {
-    border: 2px dashed var(--gray-200);
-    border-radius: 12px;
-    padding: 34px 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    background: var(--gray-50);
-  }
-  .upload-zone:hover, .upload-zone.drag-over { border-color: var(--gold); background: var(--gold-pale); }
-  .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
-  .upload-icon { font-size: 34px; margin-bottom: 8px; opacity: 0.7; }
-  .upload-label { font-size: 14px; font-weight: 500; color: var(--gray-600); margin-bottom: 4px; }
-  .upload-hint { font-size: 12px; color: var(--gray-400); }
+  .upload-zone { border:2px dashed var(--gray-200); border-radius:12px; padding:28px 20px;
+    text-align:center; cursor:pointer; transition:all .2s; position:relative; background:var(--gray-50); }
+  .upload-zone:hover,.upload-zone.drag-over { border-color:var(--gold); background:var(--gold-pale); }
+  .upload-zone input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+  .upload-icon { font-size:30px; margin-bottom:8px; opacity:.75; }
+  .upload-label { font-size:13px; font-weight:500; color:var(--gray-600); margin-bottom:3px; }
+  .upload-hint { font-size:11px; color:var(--gray-400); }
 
-  .base-status {
-    display: none; align-items: center; justify-content: space-between;
-    background: var(--success-bg); border: 1px solid #b2dfc2;
-    border-radius: 10px; padding: 12px 16px; margin-top: 14px;
-  }
-  .base-status.show { display: flex; }
-  .base-info { display: flex; align-items: center; gap: 10px; }
-  .base-info-icon { font-size: 18px; }
-  .base-info-text { font-size: 13px; font-weight: 500; color: var(--success); }
-  .base-info-sub { font-size: 11.5px; color: #5a9a72; margin-top: 1px; }
-  .btn-clear {
-    background: none; border: 1px solid #b2dfc2; border-radius: 6px;
-    color: var(--success); font-size: 12px; padding: 4px 10px;
-    cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500; transition: all 0.15s;
-  }
-  .btn-clear:hover { background: #d1f0de; }
+  .base-status { display:none; align-items:center; justify-content:space-between;
+    border-radius:10px; padding:10px 14px; margin-top:12px; }
+  .base-status.show { display:flex; }
+  .base-status.corretores { background:var(--success-bg); border:1px solid #b2dfc2; }
+  .base-status.comissao   { background:#EAF0FD; border:1px solid #a8c0f0; }
+  .base-info { display:flex; align-items:center; gap:8px; }
+  .base-info-text { font-size:12.5px; font-weight:600; }
+  .base-status.corretores .base-info-text { color:var(--success); }
+  .base-status.comissao   .base-info-text { color:#1a4a8a; }
+  .base-info-sub { font-size:11px; margin-top:1px; color:var(--gray-400); }
+  .btn-clear { background:none; border:1px solid var(--gray-200); border-radius:6px;
+    color:var(--gray-600); font-size:11.5px; padding:3px 9px; cursor:pointer;
+    font-family:'DM Sans',sans-serif; font-weight:500; transition:all .15s; }
+  .btn-clear:hover { background:var(--gray-100); }
 
-  .columns-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
-  .chip {
-    background: var(--purple-light); border: 1px solid #dac9e0;
-    border-radius: 20px; padding: 3px 10px;
-    font-size: 11.5px; font-family: 'DM Mono', monospace; color: var(--purple-mid); font-weight: 500;
-  }
+  .columns-row { display:flex; flex-wrap:wrap; gap:5px; margin-top:10px; }
+  .chip { background:var(--purple-light); border:1px solid #dac9e0; border-radius:20px;
+    padding:2px 9px; font-size:10.5px; font-family:'DM Mono',monospace; color:var(--purple-mid); }
+  .chip.key { background:linear-gradient(135deg,rgba(201,145,58,.15),rgba(201,168,76,.1));
+    border-color:rgba(201,145,58,.4); color:#8a5c10; }
 
   /* FIELDS */
-  .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .field-group { display: flex; flex-direction: column; gap: 6px; }
-  .field-group.full { grid-column: 1 / -1; }
-  .field-group.span2 { grid-column: span 2; }
+  .section-label { font-size:11px; font-weight:700; color:var(--gray-400);
+    text-transform:uppercase; letter-spacing:.6px; margin-bottom:14px;
+    display:flex; align-items:center; gap:8px; }
+  .section-label::after { content:''; flex:1; height:1px; background:var(--gray-100); }
 
-  label { font-size: 12px; font-weight: 600; color: var(--gray-600); letter-spacing: 0.4px; text-transform: uppercase; }
+  .fields-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .field-group { display:flex; flex-direction:column; gap:5px; }
+  .field-group.full { grid-column:1/-1; }
+  label { font-size:11.5px; font-weight:600; color:var(--gray-600); text-transform:uppercase; letter-spacing:.4px; }
 
-  .input-wrap { position: relative; }
-  .input-wrap input {
-    width: 100%; padding: 10px 14px;
-    border: 1.5px solid var(--gray-200);
-    border-radius: 8px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px; color: var(--gray-800);
-    background: white; transition: border-color 0.2s; outline: none;
-  }
-  .input-wrap input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,145,58,0.12); }
-  .input-wrap input::placeholder { color: var(--gray-400); }
-  .input-wrap input.loading { padding-right: 40px; }
+  .input-wrap { position:relative; }
+  .input-wrap input { width:100%; padding:10px 14px; border:1.5px solid var(--gray-200);
+    border-radius:8px; font-family:'DM Sans',sans-serif; font-size:14px;
+    color:var(--gray-800); background:#fff; transition:border-color .2s; outline:none; }
+  .input-wrap input:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,145,58,.12); }
+  .input-wrap input::placeholder { color:var(--gray-400); }
+  .input-spinner { display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%);
+    width:15px; height:15px; border:2px solid var(--gray-200); border-top-color:var(--gold);
+    border-radius:50%; animation:spin .7s linear infinite; }
+  .input-spinner.show { display:block; }
+  @keyframes spin { to { transform:translateY(-50%) rotate(360deg); } }
+  .input-ok { display:none; position:absolute; right:12px; top:50%; transform:translateY(-50%); font-size:15px; }
+  .input-ok.show { display:block; }
 
-  .input-spinner {
-    display: none;
-    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    width: 16px; height: 16px;
-    border: 2px solid var(--gray-200); border-top-color: var(--gold);
-    border-radius: 50%; animation: spin 0.7s linear infinite;
-  }
-  .input-spinner.show { display: block; }
-  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+  .field-hint { font-size:11px; color:var(--gray-400); }
+  .field-hint.ok  { color:var(--purple-mid); font-weight:500; font-size:12px; }
+  .field-hint.err { color:var(--danger); font-size:12px; }
 
-  .input-status {
-    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
-    font-size: 16px; display: none;
-  }
-  .input-status.show { display: block; }
+  .address-block { display:none; grid-column:1/-1; background:var(--purple-light);
+    border:1px solid #dac9e0; border-radius:10px; padding:12px 16px;
+    grid-template-columns:2fr 1fr 1fr; gap:8px 20px; animation:fadeIn .25s ease; }
+  .address-block.show { display:grid; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:none} }
+  .addr-lbl { font-size:10px; font-weight:600; color:var(--purple-mid); text-transform:uppercase; letter-spacing:.5px; }
+  .addr-val { font-size:12.5px; font-weight:500; color:var(--purple); margin-top:2px; }
 
-  .field-hint { font-size: 11px; color: var(--gray-400); }
-  .field-hint.cep-result { color: var(--purple-mid); font-weight: 500; font-size: 12px; }
-  .field-hint.cep-error { color: var(--danger); font-size: 12px; }
+  select { width:100%; padding:10px 14px; border:1.5px solid var(--gray-200);
+    border-radius:8px; font-family:'DM Sans',sans-serif; font-size:14px;
+    color:var(--gray-800); background:#fff; outline:none; cursor:pointer; transition:border-color .2s; }
+  select:focus { border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,145,58,.12); }
 
-  /* ADDRESS BLOCK */
-  .address-block {
-    display: none;
-    grid-column: 1 / -1;
-    background: var(--purple-light);
-    border: 1px solid #dac9e0;
-    border-radius: 10px;
-    padding: 14px 16px;
-    gap: 10px 24px;
-    grid-template-columns: 2fr 1fr 1fr;
-    animation: fadeIn 0.25s ease;
-  }
-  .address-block.show { display: grid; }
-  @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
-
-  .address-item { display: flex; flex-direction: column; gap: 2px; }
-  .address-item-label { font-size: 10.5px; font-weight: 600; color: var(--purple-mid); text-transform: uppercase; letter-spacing: 0.5px; }
-  .address-item-value { font-size: 13px; font-weight: 500; color: var(--purple); }
-
-  /* CRITERIO */
-  select {
-    width: 100%; padding: 10px 14px;
-    border: 1.5px solid var(--gray-200); border-radius: 8px;
-    font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--gray-800);
-    background: white; outline: none; cursor: pointer; transition: border-color 0.2s;
-  }
-  select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,145,58,0.12); }
+  /* OBRIGATORIEDADE */
+  .req-note { background:var(--warning-bg); border:1px solid #e8d080; border-radius:8px;
+    padding:10px 14px; font-size:12.5px; color:var(--warning); margin-bottom:16px; }
 
   /* BUTTON */
-  .btn-verify {
-    width: 100%; padding: 14px;
-    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
-    color: white; border: none; border-radius: 10px;
-    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
-    cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    margin-top: 8px;
-  }
-  .btn-verify:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(74,32,80,0.28); }
-  .btn-verify:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-verify { width:100%; padding:14px; background:linear-gradient(135deg,var(--purple),var(--purple-mid));
+    color:#fff; border:none; border-radius:10px; font-family:'DM Sans',sans-serif;
+    font-size:15px; font-weight:600; cursor:pointer; transition:all .2s;
+    display:flex; align-items:center; justify-content:center; gap:10px; margin-top:8px; }
+  .btn-verify:hover:not(:disabled) { filter:brightness(1.1); transform:translateY(-1px); box-shadow:0 6px 20px rgba(74,32,80,.28); }
+  .btn-verify:disabled { opacity:.4; cursor:not-allowed; }
 
   /* RESULTS */
-  #results { display: none; animation: fadeUp 0.35s ease; }
-  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+  #results { display:none; animation:fadeUp .35s ease; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
 
-  .result-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
-  .result-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--gray-800); }
-  .result-count { font-size: 13px; color: var(--gray-400); }
+  .result-header { display:flex; align-items:baseline; gap:12px; margin-bottom:14px; }
+  .result-title { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; color:var(--gray-800); }
+  .result-count { font-size:13px; color:var(--gray-400); }
 
-  .summary-bar { display: flex; gap: 12px; margin-bottom: 20px; }
-  .summary-pill {
-    flex: 1; background: var(--gray-50); border: 1px solid var(--gray-100);
-    border-radius: 10px; padding: 12px 16px; text-align: center;
-  }
-  .summary-pill .num { font-size: 24px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--purple); }
-  .summary-pill .lbl { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
-  .summary-pill.alert .num { color: var(--danger); }
-  .summary-pill.ok .num { color: var(--success); }
+  .summary-bar { display:flex; gap:12px; margin-bottom:20px; }
+  .summary-pill { flex:1; background:#fff; border:1px solid var(--gray-100);
+    border-radius:10px; padding:12px 14px; text-align:center; }
+  .summary-pill .num { font-size:22px; font-weight:700; font-family:'Playfair Display',serif; color:var(--purple); }
+  .summary-pill .lbl { font-size:10px; color:var(--gray-400); text-transform:uppercase; letter-spacing:.5px; margin-top:2px; }
+  .summary-pill.alert .num { color:var(--danger); }
+  .summary-pill.ok    .num { color:var(--success); }
 
-  .result-no-match {
-    background: var(--success-bg); border: 1.5px solid #b2dfc2;
-    border-radius: 12px; padding: 32px; text-align: center;
-  }
-  .result-no-match .icon { font-size: 42px; margin-bottom: 10px; }
-  .result-no-match h3 { font-size: 16px; font-weight: 600; color: var(--success); margin-bottom: 4px; }
-  .result-no-match p { font-size: 13px; color: #5a9a72; }
+  /* NO MATCH */
+  .result-none { background:var(--success-bg); border:1.5px solid #b2dfc2;
+    border-radius:12px; padding:32px; text-align:center; }
+  .result-none .ico { font-size:42px; margin-bottom:10px; }
+  .result-none h3 { font-size:16px; font-weight:600; color:var(--success); margin-bottom:4px; }
+  .result-none p { font-size:13px; color:#5a9a72; }
 
-  .result-has-match {
-    background: var(--danger-bg); border: 1.5px solid #e8a8a8;
-    border-radius: 12px; padding: 18px 22px; margin-bottom: 16px;
-  }
-  .result-has-match-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .result-has-match-header h3 { font-size: 15px; font-weight: 600; color: var(--danger); }
+  /* MATCH WRAPPER */
+  .result-match-wrap { background:var(--danger-bg); border:1.5px solid #e8a8a8;
+    border-radius:12px; padding:18px 20px; margin-bottom:16px; }
+  .match-wrap-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .match-wrap-header h3 { font-size:15px; font-weight:600; color:var(--danger); }
 
-  .match-card {
-    background: white; border: 1px solid var(--gray-100);
-    border-left: 3px solid var(--gold); border-radius: 8px;
-    padding: 14px 16px; margin-bottom: 10px;
-  }
-  .match-card:last-child { margin-bottom: 0; }
+  /* MATCH CARD */
+  .match-card { background:#fff; border:1px solid var(--gray-100);
+    border-left:3px solid var(--gold); border-radius:10px; padding:16px 18px; margin-bottom:12px; }
+  .match-card:last-child { margin-bottom:0; }
 
-  .match-row { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-bottom: 8px; }
-  .match-field { display: flex; flex-direction: column; gap: 2px; min-width: 130px; }
-  .match-field-label { font-size: 10.5px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; }
-  .match-field-value { font-size: 13.5px; font-weight: 500; color: var(--gray-800); font-family: 'DM Mono', monospace; }
-  .match-field-value.hit { background: #fff3cd; color: #7a4f00; border-radius: 3px; padding: 0 4px; }
+  .match-section { margin-bottom:12px; }
+  .match-section-title { font-size:10.5px; font-weight:700; color:var(--gray-400);
+    text-transform:uppercase; letter-spacing:.6px; margin-bottom:8px; }
+  .match-fields { display:flex; flex-wrap:wrap; gap:8px 24px; }
+  .mf { display:flex; flex-direction:column; gap:2px; min-width:120px; }
+  .mf-label { font-size:10px; font-weight:600; color:var(--gray-400); text-transform:uppercase; letter-spacing:.5px; }
+  .mf-value { font-size:13px; font-weight:500; color:var(--gray-800); font-family:'DM Mono',monospace; }
+  .mf-value.hit { background:#fff3cd; color:#7a4f00; border-radius:3px; padding:0 4px; }
 
-  .match-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-  .match-tag {
-    font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px;
-    border: 1px solid;
-  }
-  .match-tag.nome { background: #fdeee8; color: #8a3a10; border-color: #f0b898; }
-  .match-tag.email { background: #eaf0fd; color: #1a4a8a; border-color: #a8c0f0; }
-  .match-tag.tel { background: #edfaee; color: #1a6a28; border-color: #98d8a0; }
-  .match-tag.cep { background: #f3eaf5; color: #5a1a68; border-color: #c8a0d8; }
+  /* PAGAMENTO CARD */
+  .pagamento-block { background:linear-gradient(135deg,rgba(74,32,80,.06),rgba(123,58,110,.04));
+    border:1px solid #dac9e0; border-radius:8px; padding:14px 16px; margin-top:12px; }
+  .pagamento-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .pagamento-header span { font-size:13px; font-weight:700; color:var(--purple); }
+  .pagamento-fields { display:flex; flex-wrap:wrap; gap:8px 20px; }
+  .pf { display:flex; flex-direction:column; gap:2px; }
+  .pf-label { font-size:10px; font-weight:600; color:var(--purple-mid); text-transform:uppercase; letter-spacing:.5px; }
+  .pf-value { font-size:13px; font-weight:600; color:var(--purple); font-family:'DM Mono',monospace; }
+  .pf-value.valor { color:var(--success); font-size:15px; }
+  .sem-pagamento { font-size:12.5px; color:var(--gray-400); font-style:italic; margin-top:4px; }
 
-  .search-log {
-    margin-top: 20px; background: var(--gray-50);
-    border: 1px solid var(--gray-100); border-radius: 10px; padding: 14px 16px;
-  }
-  .search-log-title { font-size: 11.5px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
-  .log-item { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--gray-600); padding: 5px 0; border-bottom: 1px solid var(--gray-100); }
-  .log-item:last-child { border-bottom: none; }
-  .log-item .log-key { color: var(--gray-400); font-family: 'DM Mono', monospace; font-size: 11.5px; }
-  .log-item .log-val { font-weight: 500; }
+  /* TAGS */
+  .match-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+  .tag { font-size:11px; font-weight:600; padding:2px 9px; border-radius:20px; border:1px solid; }
+  .tag.nome  { background:#fdeee8; color:#8a3a10; border-color:#f0b898; }
+  .tag.email { background:#eaf0fd; color:#1a4a8a; border-color:#a8c0f0; }
+  .tag.tel   { background:#edfaee; color:#1a6a28; border-color:#98d8a0; }
+  .tag.cep   { background:var(--purple-light); color:#5a1a68; border-color:#c8a0d8; }
+  .tag.doc   { background:var(--warning-bg); color:var(--warning); border-color:#e8d080; }
 
-  @media (max-width: 640px) {
-    /* HEADER */
-    header { padding: 0 16px; height: 56px; }
-    .logo-mark { width: 32px; height: 32px; font-size: 16px; }
-    .logo-text { font-size: 15px; }
-    .logo-sub { font-size: 10px; letter-spacing: 1px; }
-    .header-badge { display: none; }
+  /* LOG */
+  .search-log { background:#fff; border:1px solid var(--gray-100); border-radius:10px; padding:14px 16px; margin-top:16px; }
+  .log-title { font-size:11px; font-weight:700; color:var(--gray-400); text-transform:uppercase; letter-spacing:.5px; margin-bottom:10px; }
+  .log-item { display:flex; justify-content:space-between; font-size:12.5px; color:var(--gray-600);
+    padding:5px 0; border-bottom:1px solid var(--gray-100); }
+  .log-item:last-child { border-bottom:none; }
+  .log-key { color:var(--gray-400); font-family:'DM Mono',monospace; font-size:11.5px; }
+  .log-val { font-weight:500; }
 
-    /* LAYOUT */
-    main { padding: 20px 12px 48px; }
-    .page-title { font-size: 22px; }
-    .page-subtitle { font-size: 13px; margin-bottom: 24px; }
-
-    /* CARDS */
-    .card { padding: 18px 14px; border-radius: 12px; margin-bottom: 16px; }
-    .card-title { font-size: 14px; }
-
-    /* UPLOAD */
-    .upload-zone { padding: 24px 16px; }
-    .upload-icon { font-size: 28px; }
-    .upload-label { font-size: 13px; }
-    .upload-hint { font-size: 11px; }
-    .base-status { flex-direction: column; align-items: flex-start; gap: 10px; }
-    .btn-clear { align-self: flex-end; }
-    .columns-chips { gap: 4px; }
-    .chip { font-size: 10.5px; padding: 2px 8px; }
-
-    /* FIELDS — uma coluna */
-    .fields-grid { grid-template-columns: 1fr; gap: 14px; }
-    .field-group.full,
-    .field-group.span2 { grid-column: 1; }
-    label { font-size: 11px; }
-    .input-wrap input { font-size: 14px; padding: 11px 14px; }
-    select { font-size: 14px; padding: 11px 14px; }
-
-    /* ADDRESS BLOCK */
-    .address-block { grid-template-columns: 1fr; gap: 8px; }
-
-    /* BOTÃO */
-    .btn-verify { font-size: 14px; padding: 13px; border-radius: 10px; }
-
-    /* RESULTADOS */
-    .result-title { font-size: 16px; }
-    .result-count { font-size: 12px; }
-    .summary-bar { gap: 8px; }
-    .summary-pill { padding: 10px 10px; border-radius: 8px; }
-    .summary-pill .num { font-size: 20px; }
-    .summary-pill .lbl { font-size: 10px; }
-
-    /* CARDS DE MATCH */
-    .result-has-match { padding: 14px 14px; }
-    .match-card { padding: 12px 12px; }
-    .match-row { gap: 8px 16px; }
-    .match-field { min-width: 100px; }
-    .match-field-label { font-size: 10px; }
-    .match-field-value { font-size: 12.5px; }
-
-    /* LOG */
-    .search-log { padding: 12px 12px; }
-    .log-item { font-size: 12px; }
+  /* RESPONSIVE */
+  @media (max-width:640px) {
+    header { padding:0 14px; height:56px; }
+    .logo-mark { width:30px; height:30px; font-size:15px; }
+    .logo-text { font-size:14px; }
+    .logo-sub { font-size:9.5px; }
+    .header-badge { display:none; }
+    main { padding:20px 12px 48px; }
+    .page-title { font-size:21px; }
+    .page-subtitle { font-size:13px; margin-bottom:20px; }
+    .card { padding:16px 14px; border-radius:12px; margin-bottom:14px; }
+    .bases-grid { grid-template-columns:1fr; }
+    .fields-grid { grid-template-columns:1fr; }
+    .field-group.full { grid-column:1; }
+    .address-block { grid-template-columns:1fr; }
+    .summary-bar { flex-wrap:wrap; gap:8px; }
+    .summary-pill { min-width:calc(50% - 4px); }
+    .match-fields { gap:8px 16px; }
+    .pagamento-fields { gap:8px 14px; }
+    .base-status { flex-direction:column; align-items:flex-start; gap:8px; }
   }
 </style>
 </head>
@@ -358,53 +245,87 @@
 
 <main>
   <div class="page-title">Verificação de Vínculos</div>
-  <div class="page-subtitle">Consulte a base de corretores para identificar vínculos com novos cadastros</div>
+  <div class="page-subtitle">Consulte a base de corretores e histórico de pagamentos para identificar vínculos com novos cadastros</div>
 
-  <!-- PASSO 1 -->
+  <!-- PASSO 1: BASES -->
   <div class="card">
     <div class="card-header">
       <div class="step-badge">1</div>
       <div>
-        <div class="card-title">Carregar Base de Corretores (.csv)</div>
+        <div class="card-title">Carregar Bases de Dados</div>
+        <div class="card-sub">Faça upload das duas bases para habilitar a verificação completa</div>
       </div>
     </div>
 
-    <div class="upload-zone" id="uploadZone">
-      <input type="file" accept=".csv" id="csvInput" onchange="handleCSV(event)">
-      <div class="upload-icon">📂</div>
-      <div class="upload-label">Arraste o arquivo CSV ou clique para selecionar</div>
-      <div class="upload-hint">Separador: vírgula, ponto-e-vírgula ou TAB · Encoding UTF-8</div>
-    </div>
+    <div class="bases-grid">
 
-    <div class="base-status" id="baseStatus">
-      <div class="base-info">
-        <div class="base-info-icon">✅</div>
-        <div>
-          <div class="base-info-text" id="baseInfoText">Base carregada</div>
-          <div class="base-info-sub" id="baseInfoSub"></div>
+      <!-- BASE CORRETORES -->
+      <div>
+        <div class="section-label">Base de Corretores</div>
+        <div class="upload-zone" id="zoneCorretores">
+          <input type="file" accept=".csv" onchange="handleCSV(event,'corretores')">
+          <div class="upload-icon">👥</div>
+          <div class="upload-label">Base de Corretores</div>
+          <div class="upload-hint">Arquivo .csv cadastral</div>
+        </div>
+        <div class="base-status corretores" id="statusCorretores">
+          <div class="base-info">
+            <span>✅</span>
+            <div>
+              <div class="base-info-text" id="txtCorretores">—</div>
+              <div class="base-info-sub" id="subCorretores">—</div>
+            </div>
+          </div>
+          <button class="btn-clear" onclick="clearBase('corretores')">✕</button>
+        </div>
+        <div id="colsCorretores" style="display:none">
+          <div class="columns-row" id="chipsCorretores"></div>
         </div>
       </div>
-      <button class="btn-clear" onclick="clearBase()">✕ Remover</button>
-    </div>
 
-    <div id="columnsArea" style="display:none;">
-      <div style="font-size:11.5px;color:var(--gray-400);margin-top:12px;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Colunas detectadas</div>
-      <div class="columns-chips" id="columnsChips"></div>
+      <!-- BASE COMISSÃO -->
+      <div>
+        <div class="section-label">Base de Comissões / Pagamentos</div>
+        <div class="upload-zone" id="zoneComissao">
+          <input type="file" accept=".csv" onchange="handleCSV(event,'comissao')">
+          <div class="upload-icon">💰</div>
+          <div class="upload-label">Base de Pagamentos</div>
+          <div class="upload-hint">Arquivo .csv de adiantamentos</div>
+        </div>
+        <div class="base-status comissao" id="statusComissao">
+          <div class="base-info">
+            <span>💙</span>
+            <div>
+              <div class="base-info-text" id="txtComissao">—</div>
+              <div class="base-info-sub" id="subComissao">—</div>
+            </div>
+          </div>
+          <button class="btn-clear" onclick="clearBase('comissao')">✕</button>
+        </div>
+        <div id="colsComissao" style="display:none">
+          <div class="columns-row" id="chipsComissao"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- PASSO 2 -->
+  <!-- PASSO 2: DADOS -->
   <div class="card">
     <div class="card-header">
       <div class="step-badge">2</div>
       <div>
         <div class="card-title">Dados do Novo Cadastro</div>
+        <div class="card-sub">Todos os campos são obrigatórios para verificação completa</div>
       </div>
+    </div>
+
+    <div class="req-note">
+      ⚠️ Preencha <strong>todos os campos</strong> para que a análise seja realizada em todos os critérios simultaneamente.
     </div>
 
     <div class="fields-grid">
 
-      <!-- NOME -->
       <div class="field-group full">
         <label>Nome Completo</label>
         <div class="input-wrap">
@@ -413,7 +334,14 @@
         <div class="field-hint">Busca pelo nome inteiro, primeiro nome e sobrenome separadamente</div>
       </div>
 
-      <!-- EMAIL -->
+      <div class="field-group">
+        <label>CPF / CNPJ</label>
+        <div class="input-wrap">
+          <input type="text" id="fDoc" placeholder="Ex: 123.456.789-00" oninput="updateBtn()">
+        </div>
+        <div class="field-hint">Formatação ignorada na busca</div>
+      </div>
+
       <div class="field-group">
         <label>E-mail</label>
         <div class="input-wrap">
@@ -421,44 +349,31 @@
         </div>
       </div>
 
-      <!-- TELEFONE -->
       <div class="field-group">
         <label>Telefone / Celular</label>
         <div class="input-wrap">
-          <input type="text" id="fTelefone" placeholder="Ex: (11) 98765-4321" oninput="updateBtn()">
+          <input type="text" id="fTel" placeholder="Ex: (11) 98765-4321" oninput="updateBtn()">
         </div>
         <div class="field-hint">Formatação ignorada na busca</div>
       </div>
 
-      <!-- CEP -->
       <div class="field-group">
         <label>CEP</label>
         <div class="input-wrap">
           <input type="text" id="fCep" placeholder="Ex: 01310-100" maxlength="9" oninput="onCepInput(this)">
           <div class="input-spinner" id="cepSpinner"></div>
-          <div class="input-status" id="cepStatus"></div>
+          <div class="input-ok" id="cepOk"></div>
         </div>
-        <div class="field-hint" id="cepHint">Digite o CEP para preenchimento automático do endereço</div>
+        <div class="field-hint" id="cepHint">Preenchimento automático ao digitar</div>
       </div>
 
-      <!-- ENDEREÇO AUTO -->
       <div class="address-block" id="addressBlock">
-        <div class="address-item">
-          <div class="address-item-label">Logradouro</div>
-          <div class="address-item-value" id="addrLogradouro">—</div>
-        </div>
-        <div class="address-item">
-          <div class="address-item-label">Bairro</div>
-          <div class="address-item-value" id="addrBairro">—</div>
-        </div>
-        <div class="address-item">
-          <div class="address-item-label">Cidade / UF</div>
-          <div class="address-item-value" id="addrCidade">—</div>
-        </div>
+        <div><div class="addr-lbl">Logradouro</div><div class="addr-val" id="addrLog">—</div></div>
+        <div><div class="addr-lbl">Bairro</div><div class="addr-val" id="addrBairro">—</div></div>
+        <div><div class="addr-lbl">Cidade / UF</div><div class="addr-val" id="addrCidade">—</div></div>
       </div>
 
-      <!-- CRITERIO -->
-      <div class="field-group full" style="margin-top:4px;">
+      <div class="field-group full">
         <label>Critério de correspondência</label>
         <select id="criterio">
           <option value="qualquer">Qualquer campo coincide (OR) — mais abrangente</option>
@@ -486,347 +401,407 @@
 </main>
 
 <script>
-let baseData = [], baseColumns = [];
-let cepTimeout = null;
-let currentCepData = null;
+// ── ESTADO ────────────────────────────────────────────────
+const db = { corretores: [], comissao: [] };
+const cols = { corretores: [], comissao: [] };
+let cepTimer = null, cepData = null;
 
-// ── CEP ────────────────────────────────────────────────────
-function onCepInput(input) {
-  // Auto-format
-  let v = input.value.replace(/\D/g, '').slice(0, 8);
-  if (v.length > 5) v = v.slice(0,5) + '-' + v.slice(5);
-  input.value = v;
-
-  clearTimeout(cepTimeout);
-  const digits = v.replace(/\D/g,'');
-
-  if (digits.length < 8) {
-    resetCepUI();
-    updateBtn();
-    return;
-  }
-
-  // Debounce 400ms
-  cepTimeout = setTimeout(() => fetchCep(digits), 400);
-  updateBtn();
-}
-
-function resetCepUI() {
-  currentCepData = null;
-  document.getElementById('cepSpinner').classList.remove('show');
-  document.getElementById('cepStatus').classList.remove('show');
-  document.getElementById('addressBlock').classList.remove('show');
-  const hint = document.getElementById('cepHint');
-  hint.className = 'field-hint';
-  hint.textContent = 'Digite o CEP para preenchimento automático do endereço';
-}
-
-async function fetchCep(digits) {
-  const spinner = document.getElementById('cepSpinner');
-  const status  = document.getElementById('cepStatus');
-  const hint    = document.getElementById('cepHint');
-  const block   = document.getElementById('addressBlock');
-
-  spinner.classList.add('show');
-  status.classList.remove('show');
-  block.classList.remove('show');
-
-  try {
-    const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
-    const data = await res.json();
-
-    spinner.classList.remove('show');
-
-    if (data.erro) {
-      status.textContent = '✕';
-      status.classList.add('show');
-      hint.className = 'field-hint cep-error';
-      hint.textContent = 'CEP não encontrado. Verifique e tente novamente.';
-      currentCepData = null;
-    } else {
-      currentCepData = data;
-      status.textContent = '✓';
-      status.classList.add('show');
-      hint.className = 'field-hint cep-result';
-      hint.textContent = `${data.logradouro ? data.logradouro + ', ' : ''}${data.bairro ? data.bairro + ' · ' : ''}${data.localidade}/${data.uf}`;
-
-      document.getElementById('addrLogradouro').textContent = data.logradouro || '—';
-      document.getElementById('addrBairro').textContent     = data.bairro    || '—';
-      document.getElementById('addrCidade').textContent     = `${data.localidade} / ${data.uf}`;
-      block.classList.add('show');
-    }
-  } catch(e) {
-    spinner.classList.remove('show');
-    status.textContent = '✕';
-    status.classList.add('show');
-    hint.className = 'field-hint cep-error';
-    hint.textContent = 'Erro ao consultar o CEP. Verifique sua conexão.';
-    currentCepData = null;
-  }
-  updateBtn();
-}
-
-// ── CSV ────────────────────────────────────────────────────
-function handleCSV(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = (e) => parseCSV(e.target.result, file.name);
-  reader.readAsText(file, 'UTF-8');
-}
-
-function detectDelimiter(line) {
-  const c = {',':0,';':0,'\t':0};
+// ── CSV ───────────────────────────────────────────────────
+function detectDelim(line) {
+  const c={',':0,';':0,'\t':0};
   for(const ch of line) if(c[ch]!==undefined) c[ch]++;
   return Object.entries(c).sort((a,b)=>b[1]-a[1])[0][0];
 }
 
-function parseCSV(text, filename) {
-  const lines = text.trim().split(/\r?\n/).filter(l=>l.trim());
-  if (lines.length < 2) { alert('Arquivo sem dados suficientes.'); return; }
-  const delim = detectDelimiter(lines[0]);
-  const parseRow = row => row.split(delim).map(c=>c.trim().replace(/^"|"$/g,''));
-  baseColumns = parseRow(lines[0]);
-  baseData = lines.slice(1).map(l => {
-    const vals = parseRow(l);
-    const obj = {};
-    baseColumns.forEach((col,i) => obj[col] = vals[i]||'');
-    return obj;
-  });
+function handleCSV(e, tipo) {
+  const file = e.target.files[0];
+  if(!file) return;
+  const r = new FileReader();
+  r.onload = ev => parseCSV(ev.target.result, file.name, tipo);
+  r.readAsText(file, 'UTF-8');
+}
 
-  document.getElementById('baseStatus').classList.add('show');
-  document.getElementById('baseInfoText').textContent = `${filename} — ${baseData.length} registros carregados`;
-  document.getElementById('baseInfoSub').textContent  = `${baseColumns.length} colunas · Delimitador: "${delim==='\t'?'TAB':delim}"`;
-  document.getElementById('columnsArea').style.display = 'block';
-  document.getElementById('columnsChips').innerHTML = baseColumns.map(c=>`<span class="chip">${c}</span>`).join('');
+function parseCSV(text, filename, tipo) {
+  const lines = text.trim().split(/\r?\n/).filter(l=>l.trim());
+  if(lines.length < 2) { alert('Arquivo sem dados.'); return; }
+  const delim = detectDelim(lines[0]);
+  const parseRow = row => row.split(delim).map(c=>c.trim().replace(/^"|"$/g,''));
+  cols[tipo] = parseRow(lines[0]);
+  db[tipo] = lines.slice(1)
+    .filter(l => l.replace(/;/g,'').trim() !== '') // ignora linha de totais
+    .map(l => {
+      const vals = parseRow(l);
+      const obj={};
+      cols[tipo].forEach((col,i) => obj[col] = vals[i]||'');
+      return obj;
+    });
+
+  // UI
+  const statusEl = document.getElementById('status'+cap(tipo));
+  statusEl.classList.add('show');
+  document.getElementById('txt'+cap(tipo)).textContent = `${filename} — ${db[tipo].length} registros`;
+  document.getElementById('sub'+cap(tipo)).textContent = `${cols[tipo].length} colunas · delimitador "${delim==='\t'?'TAB':delim}"`;
+
+  const colsArea = document.getElementById('cols'+cap(tipo));
+  colsArea.style.display = 'block';
+
+  // Detecta colunas-chave para realçar
+  const keyPat = tipo==='corretores'
+    ? /nome|razao|cnpj|cpf|email|tel|cep/i
+    : /corretor|valor|pagamento|gera|documento|cod/i;
+
+  document.getElementById('chips'+cap(tipo)).innerHTML =
+    cols[tipo].map(c => `<span class="chip ${keyPat.test(c)?'key':''}">${c}</span>`).join('');
+
   updateBtn();
 }
 
-function clearBase() {
-  baseData=[]; baseColumns=[];
-  document.getElementById('baseStatus').classList.remove('show');
-  document.getElementById('columnsArea').style.display='none';
-  document.getElementById('csvInput').value='';
+function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
+function clearBase(tipo) {
+  db[tipo]=[]; cols[tipo]=[];
+  document.getElementById('status'+cap(tipo)).classList.remove('show');
+  document.getElementById('cols'+cap(tipo)).style.display='none';
   document.getElementById('results').style.display='none';
   updateBtn();
 }
 
-// ── HELPERS ────────────────────────────────────────────────
-function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
-function digits(s){ return (s||'').replace(/\D/g,''); }
+// Drag & drop para ambas as zonas
+['zoneCorretores','zoneComissao'].forEach(id => {
+  const z = document.getElementById(id);
+  const tipo = id.includes('Cor') ? 'corretores' : 'comissao';
+  z.addEventListener('dragover', e=>{e.preventDefault();z.classList.add('drag-over');});
+  z.addEventListener('dragleave', ()=>z.classList.remove('drag-over'));
+  z.addEventListener('drop', e=>{
+    e.preventDefault(); z.classList.remove('drag-over');
+    const f=e.dataTransfer.files[0];
+    if(f&&f.name.endsWith('.csv')){
+      const r=new FileReader();
+      r.onload=ev=>parseCSV(ev.target.result,f.name,tipo);
+      r.readAsText(f,'UTF-8');
+    }
+  });
+});
 
-function updateBtn() {
-  const hasBase  = baseData.length > 0;
-  const hasField = [
-    document.getElementById('fNome').value,
-    document.getElementById('fEmail').value,
-    document.getElementById('fTelefone').value,
-    document.getElementById('fCep').value,
-  ].some(v => v.trim() !== '');
-  document.getElementById('btnVerify').disabled = !(hasBase && hasField);
+// ── CEP ───────────────────────────────────────────────────
+function onCepInput(input) {
+  let v = input.value.replace(/\D/g,'').slice(0,8);
+  if(v.length>5) v=v.slice(0,5)+'-'+v.slice(5);
+  input.value=v;
+  clearTimeout(cepTimer);
+  const d=v.replace(/\D/g,'');
+  if(d.length<8){resetCep();updateBtn();return;}
+  cepTimer=setTimeout(()=>fetchCep(d),400);
+  updateBtn();
 }
 
-// ── COLUMN AUTO-DETECT ─────────────────────────────────────
-function buildColMap() {
-  const map = { nome:[], email:[], tel:[], cep:[], cidade:[], bairro:[], uf:[] };
-  const pat = {
-    nome:   /nome|razao|empresa|assessoria|corretor|cliente/i,
-    email:  /email|e-mail|mail/i,
-    tel:    /tel|fone|celular|whatsapp|phone|contato/i,
-    cep:    /cep|postal|zip/i,
-    cidade: /cidade|municipio|localidade/i,
-    bairro: /bairro|district/i,
-    uf:     /\buf\b|estado|state/i,
+function resetCep(){
+  cepData=null;
+  document.getElementById('cepSpinner').classList.remove('show');
+  document.getElementById('cepOk').classList.remove('show');
+  document.getElementById('addressBlock').classList.remove('show');
+  const h=document.getElementById('cepHint');
+  h.className='field-hint'; h.textContent='Preenchimento automático ao digitar';
+}
+
+async function fetchCep(d){
+  const sp=document.getElementById('cepSpinner'), ok=document.getElementById('cepOk'), h=document.getElementById('cepHint');
+  sp.classList.add('show'); ok.classList.remove('show');
+  try{
+    const res=await fetch(`https://viacep.com.br/ws/${d}/json/`);
+    const data=await res.json();
+    sp.classList.remove('show');
+    if(data.erro){
+      ok.textContent='✕'; ok.classList.add('show');
+      h.className='field-hint err'; h.textContent='CEP não encontrado.';
+      cepData=null;
+    } else {
+      cepData=data;
+      ok.textContent='✓'; ok.classList.add('show');
+      h.className='field-hint ok';
+      h.textContent=`${data.logradouro||''}${data.bairro?', '+data.bairro:''} — ${data.localidade}/${data.uf}`;
+      document.getElementById('addrLog').textContent=data.logradouro||'—';
+      document.getElementById('addrBairro').textContent=data.bairro||'—';
+      document.getElementById('addrCidade').textContent=`${data.localidade} / ${data.uf}`;
+      document.getElementById('addressBlock').classList.add('show');
+    }
+  } catch(e){
+    sp.classList.remove('show'); ok.textContent='✕'; ok.classList.add('show');
+    h.className='field-hint err'; h.textContent='Erro ao consultar CEP.'; cepData=null;
+  }
+  updateBtn();
+}
+
+// ── HELPERS ───────────────────────────────────────────────
+function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
+function digs(s){ return (s||'').replace(/\D/g,''); }
+function fmtMoeda(s){ const n=parseFloat((s||'0').replace(',','.')); return isNaN(n)?'—':'R$ '+n.toLocaleString('pt-BR',{minimumFractionDigits:2}); }
+
+function updateBtn(){
+  const hasCorr = db.corretores.length > 0;
+  const hasFields = [
+    document.getElementById('fNome').value,
+    document.getElementById('fDoc').value,
+    document.getElementById('fEmail').value,
+    document.getElementById('fTel').value,
+  ].some(v=>v.trim()!=='');
+  document.getElementById('btnVerify').disabled = !(hasCorr && hasFields);
+}
+
+// ── MAPEAMENTO DE COLUNAS ─────────────────────────────────
+function buildMap(tipo){
+  const patterns = {
+    corretores: {
+      nome:  /nome|razao|empresa|assessoria|corretor|cliente/i,
+      doc:   /cnpj|cpf|documento|doc|conta/i,
+      email: /email|e-mail|mail/i,
+      tel:   /tel|fone|celular|whatsapp|phone/i,
+      cep:   /cep|postal/i,
+      cidade:/cidade|municipio|localidade/i,
+      uf:    /\buf\b|estado/i,
+    },
+    comissao: {
+      nome:  /corretor/i,
+      doc:   /conta.documento|documento|cnpj|cpf/i,
+      cod:   /c.d.corretor|codigo|cod/i,
+      valor: /valor.liquido|valor/i,
+      pag:   /^pagamento$/i,
+      ger:   /gera/i,
+    }
   };
-  baseColumns.forEach(col => {
-    for(const [key,regex] of Object.entries(pat)) if(regex.test(col)) map[key].push(col);
-  });
+  const map={};
+  const pat=patterns[tipo];
+  for(const [key,regex] of Object.entries(pat)) {
+    map[key]=cols[tipo].filter(c=>regex.test(c));
+  }
   return map;
 }
 
-// ── VERIFICAR ──────────────────────────────────────────────
-function verificar() {
-  const fNome     = document.getElementById('fNome').value.trim();
-  const fEmail    = document.getElementById('fEmail').value.trim();
-  const fTelefone = document.getElementById('fTelefone').value.trim();
-  const fCep      = digits(document.getElementById('fCep').value);
-  const criterio  = document.getElementById('criterio').value;
+function matchCell(cell, val, type){
+  if(!val||!cell) return false;
+  if(type==='partial') return norm(cell).includes(norm(val));
+  if(type==='digits')  return digs(cell)!==''&&digs(cell)===digs(val);
+  if(type==='exact')   return norm(cell)===norm(val);
+  return false;
+}
 
-  const colMap = buildColMap();
-  const matches = [];
+function searchRows(rows, colsArr, val, type){
+  if(!val) return false;
+  const c=colsArr.length?colsArr:cols.corretores;
+  return c.some(col=>matchCell(rows[col],val,type));
+}
 
-  // Tokens de nome para busca multi-parte
-  const nomeTokens = fNome ? norm(fNome).split(/\s+/).filter(t=>t.length>1) : [];
+// ── BUSCA PAGAMENTO ───────────────────────────────────────
+function buscarPagamento(nomeCorretor, docCorretor){
+  if(!db.comissao.length) return null;
+  const map=buildMap('comissao');
 
-  baseData.forEach((row, idx) => {
-    const hits = {}; // campo → true/false
-
-    // NOME: busca nome inteiro OU qualquer token (nome/sobrenome)
-    if (fNome) {
-      const cols = colMap.nome.length ? colMap.nome : baseColumns;
-      hits.nome = cols.some(col => {
-        const cell = norm(row[col]);
-        // Inteiro
-        if (cell.includes(norm(fNome))) return true;
-        // Qualquer token (nome ou sobrenome)
-        return nomeTokens.some(t => cell.includes(t));
-      });
-    }
-
-    // EMAIL: correspondência exata (ignorar case)
-    if (fEmail) {
-      const cols = colMap.email.length ? colMap.email : baseColumns;
-      hits.email = cols.some(col => norm(row[col]) === norm(fEmail));
-    }
-
-    // TELEFONE: dígitos
-    if (fTelefone) {
-      const tel = digits(fTelefone);
-      const cols = colMap.tel.length ? colMap.tel : baseColumns;
-      hits.tel = cols.some(col => {
-        const d = digits(row[col]);
-        return d !== '' && d === tel;
-      });
-    }
-
-    // CEP: dígitos
-    if (fCep) {
-      const colsCep    = colMap.cep.length    ? colMap.cep    : [];
-      const colsCidade = colMap.cidade.length ? colMap.cidade : [];
-      const colsBairro = colMap.bairro.length ? colMap.bairro : [];
-      const colsUf     = colMap.uf.length     ? colMap.uf     : [];
-
-      let cepHit = false;
-      if (colsCep.length) cepHit = colsCep.some(col => digits(row[col]) === fCep);
-
-      // Fallback: cidade+UF se CEP não mapeado mas temos dados do ViaCEP
-      if (!cepHit && currentCepData) {
-        const cidade = norm(currentCepData.localidade);
-        const uf     = norm(currentCepData.uf);
-        const cidadeHit = colsCidade.some(col => norm(row[col]).includes(cidade));
-        const ufHit     = colsUf.some(col => norm(row[col]) === uf);
-        cepHit = cidadeHit || ufHit;
-      }
-      hits.cep = cepHit;
-    }
-
-    // Avaliar critério
-    const hitsArr = Object.values(hits);
-    const anyHit  = hitsArr.some(Boolean);
-    const allHit  = hitsArr.every(Boolean);
-    const include = criterio === 'qualquer' ? anyHit : allHit;
-
-    if (include) matches.push({ row, hits });
+  // Tenta match por documento primeiro (mais preciso), depois por nome
+  const match = db.comissao.find(row=>{
+    const docHit = docCorretor && map.doc.some(c=>digs(row[c])===digs(docCorretor)&&digs(docCorretor)!=='');
+    const nomeHit = nomeCorretor && map.nome.some(c=>norm(row[c]).includes(norm(nomeCorretor))||norm(nomeCorretor).includes(norm(row[c])));
+    return docHit || nomeHit;
   });
 
-  renderResults({ fNome, fEmail, fTelefone, fCep }, matches, criterio);
+  if(!match) return null;
+
+  return {
+    corretor: match[map.nome[0]]  || '—',
+    doc:      match[map.doc[0]]   || '—',
+    valor:    fmtMoeda(match[map.valor[0]]),
+    pagamento:match[map.pag[0]]   || '—',
+    geracao:  match[map.ger[0]]   || '—',
+    cod:      match[map.cod[0]]   || '—',
+  };
 }
 
-// ── RENDER ─────────────────────────────────────────────────
-function renderResults(params, matches, criterio) {
-  const el = document.getElementById('results');
-  el.style.display = 'block';
-  void el.offsetWidth; // reflow para reiniciar animação
-  el.style.animation = 'none';
-  requestAnimationFrame(() => el.style.animation = '');
+// ── VERIFICAR ─────────────────────────────────────────────
+function verificar(){
+  const fNome  = document.getElementById('fNome').value.trim();
+  const fDoc   = document.getElementById('fDoc').value.trim();
+  const fEmail = document.getElementById('fEmail').value.trim();
+  const fTel   = document.getElementById('fTel').value.trim();
+  const fCep   = digs(document.getElementById('fCep').value);
+  const crit   = document.getElementById('criterio').value;
 
-  document.getElementById('resultCount').textContent =
-    `${matches.length} correspondência${matches.length!==1?'s':''} em ${baseData.length} registros`;
+  const map = buildMap('corretores');
+  const nomeTokens = fNome ? norm(fNome).split(/\s+/).filter(t=>t.length>1) : [];
+  const matches = [];
 
-  document.getElementById('summaryBar').innerHTML = `
-    <div class="summary-pill"><div class="num">${baseData.length}</div><div class="lbl">Na base</div></div>
-    <div class="summary-pill ${matches.length>0?'alert':'ok'}">
-      <div class="num">${matches.length}</div><div class="lbl">Vínculos</div>
-    </div>
-    <div class="summary-pill">
-      <div class="num">${Object.values(params).filter(v=>v).length}</div>
-      <div class="lbl">Critérios usados</div>
-    </div>
+  db.corretores.forEach(row=>{
+    const hits={};
+
+    // NOME: inteiro ou qualquer token
+    if(fNome){
+      hits.nome = map.nome.concat(map.doc.length?[]:cols.corretores).some(col=>{
+        const c=norm(row[col]||'');
+        return c.includes(norm(fNome))||nomeTokens.some(t=>c.includes(t));
+      }) || (map.nome.length===0 && cols.corretores.some(col=>{
+        const c=norm(row[col]||'');
+        return c.includes(norm(fNome))||nomeTokens.some(t=>c.includes(t));
+      }));
+      // Refaz apenas nas colunas de nome
+      const nomeCols = map.nome.length ? map.nome : cols.corretores;
+      hits.nome = nomeCols.some(col=>{
+        const c=norm(row[col]||'');
+        return c.includes(norm(fNome))||nomeTokens.some(t=>c.includes(t));
+      });
+    }
+
+    // DOC
+    if(fDoc){
+      const docCols = map.doc.length ? map.doc : cols.corretores;
+      hits.doc = docCols.some(col=>digs(row[col])!==''&&digs(row[col])===digs(fDoc));
+    }
+
+    // EMAIL
+    if(fEmail){
+      const emailCols = map.email.length ? map.email : cols.corretores;
+      hits.email = emailCols.some(col=>norm(row[col])===norm(fEmail));
+    }
+
+    // TELEFONE
+    if(fTel){
+      const telCols = map.tel.length ? map.tel : cols.corretores;
+      hits.tel = telCols.some(col=>digs(row[col])!==''&&digs(row[col])===digs(fTel));
+    }
+
+    // CEP / CIDADE
+    if(fCep){
+      const cepCols    = map.cep.length    ? map.cep    : [];
+      const cidadeCols = map.cidade.length ? map.cidade : [];
+      const ufCols     = map.uf.length     ? map.uf     : [];
+      let h = cepCols.some(col=>digs(row[col])===fCep);
+      if(!h&&cepData){
+        const cidade=norm(cepData.localidade), uf=norm(cepData.uf);
+        h = cidadeCols.some(col=>norm(row[col]).includes(cidade))
+          ||ufCols.some(col=>norm(row[col])===uf);
+      }
+      hits.cep=h;
+    }
+
+    const hArr=Object.values(hits);
+    const anyH=hArr.some(Boolean), allH=hArr.every(Boolean);
+    const include = crit==='qualquer' ? anyH : allH;
+
+    if(include){
+      // Busca pagamento
+      const nomeRow = (map.nome[0]&&row[map.nome[0]])||'';
+      const docRow  = (map.doc[0] &&row[map.doc[0]] )||'';
+      const pagamento = buscarPagamento(nomeRow, docRow);
+      matches.push({row, hits, pagamento});
+    }
+  });
+
+  renderResults({fNome,fDoc,fEmail,fTel,fCep}, matches, crit);
+}
+
+// ── RENDER ────────────────────────────────────────────────
+function renderResults(params, matches, crit){
+  const el=document.getElementById('results');
+  el.style.display='block'; void el.offsetWidth;
+  el.style.animation='none'; requestAnimationFrame(()=>el.style.animation='');
+
+  document.getElementById('resultCount').textContent=
+    `${matches.length} correspondência${matches.length!==1?'s':''} em ${db.corretores.length} registros`;
+
+  document.getElementById('summaryBar').innerHTML=`
+    <div class="summary-pill"><div class="num">${db.corretores.length}</div><div class="lbl">Na base</div></div>
+    <div class="summary-pill ${matches.length>0?'alert':'ok'}"><div class="num">${matches.length}</div><div class="lbl">Vínculos</div></div>
+    <div class="summary-pill ${db.comissao.length>0?'ok':''}"><div class="num">${db.comissao.length||'—'}</div><div class="lbl">Pagamentos</div></div>
+    <div class="summary-pill"><div class="num">${Object.values(params).filter(v=>v).length}</div><div class="lbl">Critérios</div></div>
   `;
 
-  const body = document.getElementById('resultBody');
+  const body=document.getElementById('resultBody');
+  const map=buildMap('corretores');
 
-  if (matches.length === 0) {
-    body.innerHTML = `
-      <div class="result-no-match">
-        <div class="icon">✅</div>
-        <h3>Nenhum vínculo encontrado</h3>
-        <p>Os dados informados não correspondem a nenhum registro na base de corretores.</p>
-      </div>`;
+  if(matches.length===0){
+    body.innerHTML=`<div class="result-none"><div class="ico">✅</div>
+      <h3>Nenhum vínculo encontrado</h3>
+      <p>Os dados informados não correspondem a nenhum registro na base de corretores.</p></div>`;
   } else {
-    body.innerHTML = `
-      <div class="result-has-match">
-        <div class="result-has-match-header">
-          <span style="font-size:22px">⚠️</span>
-          <h3>${matches.length} vínculo${matches.length!==1?'s':''} encontrado${matches.length!==1?'s':''} — revisar antes de prosseguir</h3>
-        </div>
-        ${matches.map(m => renderCard(m)).join('')}
-      </div>`;
+    body.innerHTML=`<div class="result-match-wrap">
+      <div class="match-wrap-header"><span style="font-size:22px">⚠️</span>
+        <h3>${matches.length} vínculo${matches.length!==1?'s':''} identificado${matches.length!==1?'s':''} — revisar antes de prosseguir</h3></div>
+      ${matches.map(m=>renderCard(m,map)).join('')}
+    </div>`;
   }
 
-  // Log
+  // LOG
   const cepLabel = params.fCep
-    ? params.fCep + (currentCepData ? ` (${currentCepData.localidade}/${currentCepData.uf})` : '')
-    : '—';
-
-  document.getElementById('searchLog').innerHTML = `
-    <div class="search-log-title">Parâmetros da verificação</div>
+    ? params.fCep+(cepData?` (${cepData.localidade}/${cepData.uf})`:''):'—';
+  document.getElementById('searchLog').innerHTML=`
+    <div class="log-title">Parâmetros da verificação</div>
     <div class="log-item"><span class="log-key">Nome</span><span class="log-val">${params.fNome||'—'}</span></div>
+    <div class="log-item"><span class="log-key">CPF/CNPJ</span><span class="log-val">${params.fDoc||'—'}</span></div>
     <div class="log-item"><span class="log-key">E-mail</span><span class="log-val">${params.fEmail||'—'}</span></div>
-    <div class="log-item"><span class="log-key">Telefone</span><span class="log-val">${params.fTelefone||'—'}</span></div>
+    <div class="log-item"><span class="log-key">Telefone</span><span class="log-val">${params.fTel||'—'}</span></div>
     <div class="log-item"><span class="log-key">CEP</span><span class="log-val">${cepLabel}</span></div>
-    <div class="log-item"><span class="log-key">Critério</span><span class="log-val">${criterio==='qualquer'?'Qualquer campo (OR)':'Todos os campos (AND)'}</span></div>
+    <div class="log-item"><span class="log-key">Critério</span><span class="log-val">${crit==='qualquer'?'Qualquer campo (OR)':'Todos os campos (AND)'}</span></div>
     <div class="log-item"><span class="log-key">Data/hora</span><span class="log-val">${new Date().toLocaleString('pt-BR')}</span></div>
   `;
-
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  el.scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function renderCard(m) {
-  const { row, hits } = m;
-  const display = baseColumns.slice(0, Math.min(8, baseColumns.length));
-  const colMap = buildColMap();
+function renderCard(m, map){
+  const {row, hits, pagamento} = m;
 
-  // Quais colunas tiveram hit
-  const hitCols = new Set();
-  if (hits.nome)  colMap.nome.forEach(c=>hitCols.add(c));
-  if (hits.email) colMap.email.forEach(c=>hitCols.add(c));
-  if (hits.tel)   colMap.tel.forEach(c=>hitCols.add(c));
-  if (hits.cep)   [...colMap.cep,...colMap.cidade,...colMap.uf].forEach(c=>hitCols.add(c));
+  // Colunas a exibir: até 8 das mais relevantes
+  const keyOrder = [...map.nome,...map.doc,...map.email,...map.tel,...map.cep,...map.cidade,...map.uf];
+  const extra = cols.corretores.filter(c=>!keyOrder.includes(c));
+  const display = [...new Set([...keyOrder,...extra])].slice(0,8);
 
-  const tags = [
-    hits.nome  ? '<span class="match-tag nome">Nome</span>'    : '',
-    hits.email ? '<span class="match-tag email">E-mail</span>' : '',
-    hits.tel   ? '<span class="match-tag tel">Telefone</span>' : '',
-    hits.cep   ? '<span class="match-tag cep">CEP/Cidade</span>'  : '',
+  const hitCols = new Set([
+    ...(hits.nome ?map.nome:[]),
+    ...(hits.doc  ?map.doc :[]),
+    ...(hits.email?map.email:[]),
+    ...(hits.tel  ?map.tel:[]),
+    ...(hits.cep  ?[...map.cep,...map.cidade,...map.uf]:[]),
+  ]);
+
+  const tags=[
+    hits.nome  ? '<span class="tag nome">Nome</span>'    :'',
+    hits.doc   ? '<span class="tag doc">CPF/CNPJ</span>' :'',
+    hits.email ? '<span class="tag email">E-mail</span>' :'',
+    hits.tel   ? '<span class="tag tel">Telefone</span>' :'',
+    hits.cep   ? '<span class="tag cep">CEP/Cidade</span>':'',
   ].filter(Boolean).join('');
+
+  // Bloco pagamento
+  let pagHtml='';
+  if(pagamento){
+    pagHtml=`
+      <div class="pagamento-block">
+        <div class="pagamento-header"><span>💰 Último Pagamento Localizado</span></div>
+        <div class="pagamento-fields">
+          <div class="pf"><div class="pf-label">Corretor (base)</div><div class="pf-value">${pagamento.corretor}</div></div>
+          <div class="pf"><div class="pf-label">CPF/CNPJ</div><div class="pf-value">${pagamento.doc}</div></div>
+          <div class="pf"><div class="pf-label">Cód. Corretor</div><div class="pf-value">${pagamento.cod}</div></div>
+          <div class="pf"><div class="pf-label">Data Pagamento</div><div class="pf-value">${pagamento.pagamento}</div></div>
+          <div class="pf"><div class="pf-label">Geração</div><div class="pf-value">${pagamento.geracao}</div></div>
+          <div class="pf"><div class="pf-label">Valor Líquido</div><div class="pf-value valor">${pagamento.valor}</div></div>
+        </div>
+      </div>`;
+  } else if(db.comissao.length>0){
+    pagHtml=`<div class="pagamento-block"><div class="sem-pagamento">💤 Nenhum pagamento localizado na base de comissões para este corretor.</div></div>`;
+  }
 
   return `
     <div class="match-card">
-      <div class="match-row">
-        ${display.map(col => `
-          <div class="match-field">
-            <div class="match-field-label">${col}</div>
-            <div class="match-field-value ${hitCols.has(col)?'hit':''}">${row[col]||'—'}</div>
-          </div>`).join('')}
+      <div class="match-section">
+        <div class="match-section-title">Dados na base de corretores</div>
+        <div class="match-fields">
+          ${display.map(col=>`
+            <div class="mf">
+              <div class="mf-label">${col}</div>
+              <div class="mf-value ${hitCols.has(col)?'hit':''}">${row[col]||'—'}</div>
+            </div>`).join('')}
+        </div>
       </div>
       <div class="match-tags">${tags}</div>
+      ${pagHtml}
     </div>`;
 }
-
-// ── DRAG & DROP ────────────────────────────────────────────
-const zone = document.getElementById('uploadZone');
-zone.addEventListener('dragover', e=>{ e.preventDefault(); zone.classList.add('drag-over'); });
-zone.addEventListener('dragleave', ()=>zone.classList.remove('drag-over'));
-zone.addEventListener('drop', e=>{
-  e.preventDefault(); zone.classList.remove('drag-over');
-  const file = e.dataTransfer.files[0];
-  if (file && file.name.endsWith('.csv')) {
-    const r = new FileReader();
-    r.onload = ev => parseCSV(ev.target.result, file.name);
-    r.readAsText(file, 'UTF-8');
-  }
-});
 </script>
 </body>
 </html>
