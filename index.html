@@ -189,6 +189,19 @@
   .pf-value.valor { color:var(--success); font-size:15px; }
   .sem-pagamento { font-size:12.5px; color:var(--gray-400); font-style:italic; margin-top:4px; }
 
+  /* HIGHLIGHT BAR */
+  .match-highlight-bar { display:flex; align-items:center; gap:0;
+    background:linear-gradient(135deg,rgba(74,32,80,.07),rgba(201,145,58,.08));
+    border:1px solid rgba(201,145,58,.3); border-radius:10px;
+    padding:14px 20px; margin-bottom:14px; flex-wrap:wrap; gap:12px; }
+  .mh-item { display:flex; flex-direction:column; gap:3px; flex:1; min-width:140px; }
+  .mh-sep { width:1px; height:36px; background:rgba(201,145,58,.25); flex-shrink:0; }
+  .mh-label { font-size:10px; font-weight:700; color:var(--gold);
+    text-transform:uppercase; letter-spacing:.7px; }
+  .mh-value { font-size:18px; font-weight:700; color:var(--purple);
+    font-family:'DM Mono',monospace; letter-spacing:.5px; }
+  .mh-item.mh-missing .mh-value { font-size:14px; color:var(--gray-400); font-weight:400; }
+
   /* TAGS */
   .match-tags { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
   .tag { font-size:11px; font-weight:600; padding:2px 9px; border-radius:20px; border:1px solid; }
@@ -552,13 +565,18 @@ function updateBtn(){
 function buildMap(tipo){
   const patterns = {
     corretores: {
-      nome:  /nome|razao|empresa|assessoria|corretor|cliente/i,
-      doc:   /cnpj|cpf|documento|doc|conta/i,
-      email: /email|e-mail|mail/i,
-      tel:   /tel|fone|celular|whatsapp|phone/i,
-      cep:   /cep|postal/i,
-      cidade:/cidade|municipio|localidade/i,
-      uf:    /\buf\b|estado/i,
+      cod:      /^c.digo$|^codigo$|^cod$/i,
+      nome:     /^nome$/i,
+      doc:      /^documento$|^cnpj$|^cpf$/i,
+      email:    /^email$|^e-mail$/i,
+      tel:      /^telefone$|^celular$|^tel$/i,
+      cep:      /^cep$|^postal$/i,
+      cidade:   /^cidade$|^municipio$/i,
+      uf:       /^uf$|^estado$/i,
+      inclusao: /^inclus.o$|^inclusao$|^data.inclus/i,
+      apelido:  /^apelido$/i,
+      loja:     /^loja$/i,
+      assistente: /^assistente$/i,
     },
     comissao: {
       nome:  /corretor/i,
@@ -592,26 +610,66 @@ function searchRows(rows, colsArr, val, type){
 }
 
 // ── BUSCA PAGAMENTO ───────────────────────────────────────
+function parseDataBR(s){
+  if(!s) return null;
+  const p=s.trim().split(' ')[0].split('/');
+  if(p.length<3) return null;
+  return new Date(p[2]+'-'+p[1]+'-'+p[0]);
+}
+
 function buscarPagamento(nomeCorretor, docCorretor){
   if(!db.comissao.length) return null;
   const map=buildMap('comissao');
+  if(!map.cod.length) return null;
 
-  // Tenta match por documento primeiro (mais preciso), depois por nome
-  const match = db.comissao.find(row=>{
-    const docHit = docCorretor && map.doc.some(c=>digs(row[c])===digs(docCorretor)&&digs(docCorretor)!=='');
-    const nomeHit = nomeCorretor && map.nome.some(c=>norm(row[c]).includes(norm(nomeCorretor))||norm(nomeCorretor).includes(norm(row[c])));
-    return docHit || nomeHit;
+  const docDigits = (docCorretor||'').replace(/\D/g,'');
+  const nomeNorm  = norm(nomeCorretor||'');
+  const nomeTokens = nomeNorm.split(/\s+/).filter(t=>t.length>2);
+
+  // 1. Acha o Cód Corretor na base de comissões via documento ou nome
+  const refRow = db.comissao.find(row=>{
+    if(docDigits){
+      const docHit = map.doc.some(c=>{ const d=(row[c]||'').replace(/\D/g,''); return d!==''&&d===docDigits; });
+      if(docHit) return true;
+    }
+    if(nomeNorm && nomeTokens.length){
+      return map.nome.some(c=>{
+        const cell=norm(row[c]||'');
+        return nomeTokens.every(t=>cell.includes(t));
+      });
+    }
+    return false;
   });
 
-  if(!match) return null;
+  if(!refRow) return null;
 
+  // 2. Extrai o código do corretor desse registro
+  const codCorretor = (map.cod[0] && refRow[map.cod[0]] || '').trim();
+  if(!codCorretor) return null;
+
+  // 3. Filtra TODOS os registros com esse código
+  const registros = db.comissao.filter(row=>
+    map.cod.some(c=>(row[c]||'').trim()===codCorretor)
+  );
+
+  // 4. Ordena desc por data de pagamento → pega o mais recente
+  const sorted = [...registros].sort((a,b)=>{
+    const colPag=map.pag[0], colGer=map.ger[0];
+    const da=parseDataBR(colPag&&a[colPag])||parseDataBR(colGer&&a[colGer]);
+    const db2=parseDataBR(colPag&&b[colPag])||parseDataBR(colGer&&b[colGer]);
+    if(!da&&!db2) return 0; if(!da) return 1; if(!db2) return -1;
+    return db2-da;
+  });
+
+  const match=sorted[0];
   return {
-    corretor: match[map.nome[0]]  || '—',
-    doc:      match[map.doc[0]]   || '—',
-    valor:    fmtMoeda(match[map.valor[0]]),
-    pagamento:match[map.pag[0]]   || '—',
-    geracao:  match[map.ger[0]]   || '—',
-    cod:      match[map.cod[0]]   || '—',
+    corretor:  match[map.nome[0]]  || '—',
+    doc:       match[map.doc[0]]   || '—',
+    valor:     fmtMoeda(match[map.valor[0]]),
+    pagamento: match[map.pag[0]]   || '—',
+    geracao:   match[map.ger[0]]   || '—',
+    cod:       codCorretor,
+    total:     registros.length,
   };
 }
 
@@ -685,11 +743,13 @@ function verificar(){
     const include = crit==='qualquer' ? anyH : allH;
 
     if(include){
-      // Busca pagamento
-      const nomeRow = (map.nome[0]&&row[map.nome[0]])||'';
-      const docRow  = (map.doc[0] &&row[map.doc[0]] )||'';
+      // Busca pagamento: usa nome e documento do registro encontrado para localizar Cód Corretor na base de comissões
+      const mapCorr = buildMap('corretores');
+      const nomeRow = (mapCorr.nome[0] && row[mapCorr.nome[0]]) || '';
+      const docRow  = (mapCorr.doc[0]  && row[mapCorr.doc[0]])  || '';
       const pagamento = buscarPagamento(nomeRow, docRow);
-      matches.push({row, hits, pagamento});
+      const codRow = pagamento ? pagamento.cod : '';
+      matches.push({row, hits, pagamento, codRow});
     }
   });
 
@@ -744,12 +804,17 @@ function renderResults(params, matches, crit){
 }
 
 function renderCard(m, map){
-  const {row, hits, pagamento} = m;
+  const {row, hits, pagamento, codRow} = m;
 
-  // Colunas a exibir: até 8 das mais relevantes
-  const keyOrder = [...map.nome,...map.doc,...map.email,...map.tel,...map.cep,...map.cidade,...map.uf];
+  // Colunas a exibir: prioriza campos-chave, até 8
+  const keyOrder = [...map.cod,...map.nome,...map.doc,...map.email,...map.tel,...map.inclusao,...map.loja,...map.assistente];
   const extra = cols.corretores.filter(c=>!keyOrder.includes(c));
   const display = [...new Set([...keyOrder,...extra])].slice(0,8);
+
+  // Valores de destaque
+  const codSis     = map.cod[0]      ? (row[map.cod[0]]||'').trim()      : '';
+  const inclusao   = map.inclusao[0] ? (row[map.inclusao[0]]||'').trim() : '';
+  const codComissao = pagamento ? pagamento.cod : '';
 
   const hitCols = new Set([
     ...(hits.nome ?map.nome:[]),
@@ -772,7 +837,7 @@ function renderCard(m, map){
   if(pagamento){
     pagHtml=`
       <div class="pagamento-block">
-        <div class="pagamento-header"><span>💰 Último Pagamento Localizado</span></div>
+        <div class="pagamento-header"><span>💰 Último Pagamento — Cód. ${pagamento.cod}</span><span style="font-size:11px;color:var(--gray-400);font-weight:400;margin-left:8px;">(${pagamento.total} registro${pagamento.total!==1?'s':''} na base)</span></div>
         <div class="pagamento-fields">
           <div class="pf"><div class="pf-label">Corretor (base)</div><div class="pf-value">${pagamento.corretor}</div></div>
           <div class="pf"><div class="pf-label">CPF/CNPJ</div><div class="pf-value">${pagamento.doc}</div></div>
@@ -783,11 +848,23 @@ function renderCard(m, map){
         </div>
       </div>`;
   } else if(db.comissao.length>0){
-    pagHtml=`<div class="pagamento-block"><div class="sem-pagamento">💤 Nenhum pagamento localizado na base de comissões para este corretor.</div></div>`;
+    const codLabel = codRow ? `Cód. <strong>${codRow}</strong>` : 'código não mapeado na base de corretores';
+    pagHtml=`<div class="pagamento-block"><div class="sem-pagamento">💤 Nenhum pagamento localizado para ${codLabel} na base de comissões.</div></div>`;
   }
 
   return `
     <div class="match-card">
+      <div class="match-highlight-bar">
+        <div class="mh-item ${codSis||codComissao?'':'mh-missing'}">
+          <div class="mh-label">Cód. Corretor (SIS)</div>
+          <div class="mh-value">${codSis || (codComissao ? codComissao : '—')}</div>
+        </div>
+        <div class="mh-sep"></div>
+        <div class="mh-item ${inclusao?'':'mh-missing'}">
+          <div class="mh-label">Inclusão na Base SIS</div>
+          <div class="mh-value">${inclusao ? inclusao.split(' ')[0] : '—'}</div>
+        </div>
+      </div>
       <div class="match-section">
         <div class="match-section-title">Dados na base de corretores</div>
         <div class="match-fields">
