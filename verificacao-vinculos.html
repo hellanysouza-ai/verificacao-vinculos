@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificação de Vínculos — Affinity Corretora</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9913A;
+    --gold-light: #C9A84C;
+    --gold-pale: #f5e8d0;
+    --purple: #4A2050;
+    --purple-mid: #7B3A6E;
+    --purple-light: #f3eaf5;
+    --white: #F4F0F8;
+    --gray-50: #EDE8F2;
+    --gray-100: #E0D8E8;
+    --gray-200: #D8D5CF;
+    --gray-400: #9A9590;
+    --gray-600: #5C5852;
+    --gray-800: #2A2824;
+    --success: #2D7A4A;
+    --success-bg: #EAF5EE;
+    --danger: #B03030;
+    --danger-bg: #FAEAEA;
+    --warning: #8A5C00;
+    --warning-bg: #FDF4E0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: linear-gradient(160deg, #EDE8F4 0%, #F8F4EC 60%, #F0EBF6 100%); min-height: 100vh;
+    color: var(--gray-800);
+    min-height: 100vh;
+  }
+
+  header {
+    background: var(--purple);
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(74,32,80,0.18);
+  }
+
+  .logo { display: flex; align-items: center; gap: 12px; }
+  .logo-mark {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px; font-weight: 700; color: white;
+  }
+  .logo-text { font-family: 'Playfair Display', serif; color: white; font-size: 17px; font-weight: 600; }
+  .logo-sub { font-family: 'DM Sans', sans-serif; color: rgba(255,255,255,0.5); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; margin-top: 1px; }
+  .header-badge {
+    background: rgba(201,145,58,0.18);
+    border: 1px solid rgba(201,145,58,0.35);
+    border-radius: 20px; padding: 6px 14px;
+    font-size: 11.5px; color: var(--gold-light); font-weight: 500; letter-spacing: 0.5px;
+  }
+
+  main { max-width: 860px; margin: 0 auto; padding: 40px 24px 60px; }
+
+  .page-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: var(--purple); margin-bottom: 4px; }
+  .page-subtitle { color: var(--gray-400); font-size: 14px; margin-bottom: 36px; }
+
+  .card {
+    background: white;
+    border: 1px solid var(--gray-100);
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  }
+
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+  .step-badge {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: white; font-size: 13px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .card-title { font-size: 15px; font-weight: 600; color: var(--gray-800); }
+
+  /* UPLOAD */
+  .upload-zone {
+    border: 2px dashed var(--gray-200);
+    border-radius: 12px;
+    padding: 34px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    background: var(--gray-50);
+  }
+  .upload-zone:hover, .upload-zone.drag-over { border-color: var(--gold); background: var(--gold-pale); }
+  .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  .upload-icon { font-size: 34px; margin-bottom: 8px; opacity: 0.7; }
+  .upload-label { font-size: 14px; font-weight: 500; color: var(--gray-600); margin-bottom: 4px; }
+  .upload-hint { font-size: 12px; color: var(--gray-400); }
+
+  .base-status {
+    display: none; align-items: center; justify-content: space-between;
+    background: var(--success-bg); border: 1px solid #b2dfc2;
+    border-radius: 10px; padding: 12px 16px; margin-top: 14px;
+  }
+  .base-status.show { display: flex; }
+  .base-info { display: flex; align-items: center; gap: 10px; }
+  .base-info-icon { font-size: 18px; }
+  .base-info-text { font-size: 13px; font-weight: 500; color: var(--success); }
+  .base-info-sub { font-size: 11.5px; color: #5a9a72; margin-top: 1px; }
+  .btn-clear {
+    background: none; border: 1px solid #b2dfc2; border-radius: 6px;
+    color: var(--success); font-size: 12px; padding: 4px 10px;
+    cursor: pointer; font-family: 'DM Sans', sans-serif; font-weight: 500; transition: all 0.15s;
+  }
+  .btn-clear:hover { background: #d1f0de; }
+
+  .columns-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+  .chip {
+    background: var(--purple-light); border: 1px solid #dac9e0;
+    border-radius: 20px; padding: 3px 10px;
+    font-size: 11.5px; font-family: 'DM Mono', monospace; color: var(--purple-mid); font-weight: 500;
+  }
+
+  /* FIELDS */
+  .fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .field-group { display: flex; flex-direction: column; gap: 6px; }
+  .field-group.full { grid-column: 1 / -1; }
+  .field-group.span2 { grid-column: span 2; }
+
+  label { font-size: 12px; font-weight: 600; color: var(--gray-600); letter-spacing: 0.4px; text-transform: uppercase; }
+
+  .input-wrap { position: relative; }
+  .input-wrap input {
+    width: 100%; padding: 10px 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; color: var(--gray-800);
+    background: white; transition: border-color 0.2s; outline: none;
+  }
+  .input-wrap input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,145,58,0.12); }
+  .input-wrap input::placeholder { color: var(--gray-400); }
+  .input-wrap input.loading { padding-right: 40px; }
+
+  .input-spinner {
+    display: none;
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    width: 16px; height: 16px;
+    border: 2px solid var(--gray-200); border-top-color: var(--gold);
+    border-radius: 50%; animation: spin 0.7s linear infinite;
+  }
+  .input-spinner.show { display: block; }
+  @keyframes spin { to { transform: translateY(-50%) rotate(360deg); } }
+
+  .input-status {
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    font-size: 16px; display: none;
+  }
+  .input-status.show { display: block; }
+
+  .field-hint { font-size: 11px; color: var(--gray-400); }
+  .field-hint.cep-result { color: var(--purple-mid); font-weight: 500; font-size: 12px; }
+  .field-hint.cep-error { color: var(--danger); font-size: 12px; }
+
+  /* ADDRESS BLOCK */
+  .address-block {
+    display: none;
+    grid-column: 1 / -1;
+    background: var(--purple-light);
+    border: 1px solid #dac9e0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    gap: 10px 24px;
+    grid-template-columns: 2fr 1fr 1fr;
+    animation: fadeIn 0.25s ease;
+  }
+  .address-block.show { display: grid; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-4px); } to { opacity:1; transform:none; } }
+
+  .address-item { display: flex; flex-direction: column; gap: 2px; }
+  .address-item-label { font-size: 10.5px; font-weight: 600; color: var(--purple-mid); text-transform: uppercase; letter-spacing: 0.5px; }
+  .address-item-value { font-size: 13px; font-weight: 500; color: var(--purple); }
+
+  /* CRITERIO */
+  select {
+    width: 100%; padding: 10px 14px;
+    border: 1.5px solid var(--gray-200); border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--gray-800);
+    background: white; outline: none; cursor: pointer; transition: border-color 0.2s;
+  }
+  select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,145,58,0.12); }
+
+  /* BUTTON */
+  .btn-verify {
+    width: 100%; padding: 14px;
+    background: linear-gradient(135deg, var(--purple), var(--purple-mid));
+    color: white; border: none; border-radius: 10px;
+    font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: 8px;
+  }
+  .btn-verify:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(74,32,80,0.28); }
+  .btn-verify:disabled { opacity: 0.45; cursor: not-allowed; }
+
+  /* RESULTS */
+  #results { display: none; animation: fadeUp 0.35s ease; }
+  @keyframes fadeUp { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+
+  .result-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; }
+  .result-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--gray-800); }
+  .result-count { font-size: 13px; color: var(--gray-400); }
+
+  .summary-bar { display: flex; gap: 12px; margin-bottom: 20px; }
+  .summary-pill {
+    flex: 1; background: var(--gray-50); border: 1px solid var(--gray-100);
+    border-radius: 10px; padding: 12px 16px; text-align: center;
+  }
+  .summary-pill .num { font-size: 24px; font-weight: 700; font-family: 'Playfair Display', serif; color: var(--purple); }
+  .summary-pill .lbl { font-size: 11px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .summary-pill.alert .num { color: var(--danger); }
+  .summary-pill.ok .num { color: var(--success); }
+
+  .result-no-match {
+    background: var(--success-bg); border: 1.5px solid #b2dfc2;
+    border-radius: 12px; padding: 32px; text-align: center;
+  }
+  .result-no-match .icon { font-size: 42px; margin-bottom: 10px; }
+  .result-no-match h3 { font-size: 16px; font-weight: 600; color: var(--success); margin-bottom: 4px; }
+  .result-no-match p { font-size: 13px; color: #5a9a72; }
+
+  .result-has-match {
+    background: var(--danger-bg); border: 1.5px solid #e8a8a8;
+    border-radius: 12px; padding: 18px 22px; margin-bottom: 16px;
+  }
+  .result-has-match-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .result-has-match-header h3 { font-size: 15px; font-weight: 600; color: var(--danger); }
+
+  .match-card {
+    background: white; border: 1px solid var(--gray-100);
+    border-left: 3px solid var(--gold); border-radius: 8px;
+    padding: 14px 16px; margin-bottom: 10px;
+  }
+  .match-card:last-child { margin-bottom: 0; }
+
+  .match-row { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-bottom: 8px; }
+  .match-field { display: flex; flex-direction: column; gap: 2px; min-width: 130px; }
+  .match-field-label { font-size: 10.5px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; }
+  .match-field-value { font-size: 13.5px; font-weight: 500; color: var(--gray-800); font-family: 'DM Mono', monospace; }
+  .match-field-value.hit { background: #fff3cd; color: #7a4f00; border-radius: 3px; padding: 0 4px; }
+
+  .match-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .match-tag {
+    font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 20px;
+    border: 1px solid;
+  }
+  .match-tag.nome { background: #fdeee8; color: #8a3a10; border-color: #f0b898; }
+  .match-tag.email { background: #eaf0fd; color: #1a4a8a; border-color: #a8c0f0; }
+  .match-tag.tel { background: #edfaee; color: #1a6a28; border-color: #98d8a0; }
+  .match-tag.cep { background: #f3eaf5; color: #5a1a68; border-color: #c8a0d8; }
+
+  .search-log {
+    margin-top: 20px; background: var(--gray-50);
+    border: 1px solid var(--gray-100); border-radius: 10px; padding: 14px 16px;
+  }
+  .search-log-title { font-size: 11.5px; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .log-item { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--gray-600); padding: 5px 0; border-bottom: 1px solid var(--gray-100); }
+  .log-item:last-child { border-bottom: none; }
+  .log-item .log-key { color: var(--gray-400); font-family: 'DM Mono', monospace; font-size: 11.5px; }
+  .log-item .log-val { font-weight: 500; }
+
+  @media (max-width: 640px) {
+    /* HEADER */
+    header { padding: 0 16px; height: 56px; }
+    .logo-mark { width: 32px; height: 32px; font-size: 16px; }
+    .logo-text { font-size: 15px; }
+    .logo-sub { font-size: 10px; letter-spacing: 1px; }
+    .header-badge { display: none; }
+
+    /* LAYOUT */
+    main { padding: 20px 12px 48px; }
+    .page-title { font-size: 22px; }
+    .page-subtitle { font-size: 13px; margin-bottom: 24px; }
+
+    /* CARDS */
+    .card { padding: 18px 14px; border-radius: 12px; margin-bottom: 16px; }
+    .card-title { font-size: 14px; }
+
+    /* UPLOAD */
+    .upload-zone { padding: 24px 16px; }
+    .upload-icon { font-size: 28px; }
+    .upload-label { font-size: 13px; }
+    .upload-hint { font-size: 11px; }
+    .base-status { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .btn-clear { align-self: flex-end; }
+    .columns-chips { gap: 4px; }
+    .chip { font-size: 10.5px; padding: 2px 8px; }
+
+    /* FIELDS — uma coluna */
+    .fields-grid { grid-template-columns: 1fr; gap: 14px; }
+    .field-group.full,
+    .field-group.span2 { grid-column: 1; }
+    label { font-size: 11px; }
+    .input-wrap input { font-size: 14px; padding: 11px 14px; }
+    select { font-size: 14px; padding: 11px 14px; }
+
+    /* ADDRESS BLOCK */
+    .address-block { grid-template-columns: 1fr; gap: 8px; }
+
+    /* BOTÃO */
+    .btn-verify { font-size: 14px; padding: 13px; border-radius: 10px; }
+
+    /* RESULTADOS */
+    .result-title { font-size: 16px; }
+    .result-count { font-size: 12px; }
+    .summary-bar { gap: 8px; }
+    .summary-pill { padding: 10px 10px; border-radius: 8px; }
+    .summary-pill .num { font-size: 20px; }
+    .summary-pill .lbl { font-size: 10px; }
+
+    /* CARDS DE MATCH */
+    .result-has-match { padding: 14px 14px; }
+    .match-card { padding: 12px 12px; }
+    .match-row { gap: 8px 16px; }
+    .match-field { min-width: 100px; }
+    .match-field-label { font-size: 10px; }
+    .match-field-value { font-size: 12.5px; }
+
+    /* LOG */
+    .search-log { padding: 12px 12px; }
+    .log-item { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">A</div>
+    <div>
+      <div class="logo-text">Affinity Corretora</div>
+      <div class="logo-sub">Cadastro de Corretor</div>
+    </div>
+  </div>
+  <div class="header-badge">🔍 Verificação de Vínculos</div>
+</header>
+
+<main>
+  <div class="page-title">Verificação de Vínculos</div>
+  <div class="page-subtitle">Consulte a base de corretores para identificar vínculos com novos cadastros</div>
+
+  <!-- PASSO 1 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge">1</div>
+      <div>
+        <div class="card-title">Carregar Base de Corretores (.csv)</div>
+      </div>
+    </div>
+
+    <div class="upload-zone" id="uploadZone">
+      <input type="file" accept=".csv" id="csvInput" onchange="handleCSV(event)">
+      <div class="upload-icon">📂</div>
+      <div class="upload-label">Arraste o arquivo CSV ou clique para selecionar</div>
+      <div class="upload-hint">Separador: vírgula, ponto-e-vírgula ou TAB · Encoding UTF-8</div>
+    </div>
+
+    <div class="base-status" id="baseStatus">
+      <div class="base-info">
+        <div class="base-info-icon">✅</div>
+        <div>
+          <div class="base-info-text" id="baseInfoText">Base carregada</div>
+          <div class="base-info-sub" id="baseInfoSub"></div>
+        </div>
+      </div>
+      <button class="btn-clear" onclick="clearBase()">✕ Remover</button>
+    </div>
+
+    <div id="columnsArea" style="display:none;">
+      <div style="font-size:11.5px;color:var(--gray-400);margin-top:12px;margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;">Colunas detectadas</div>
+      <div class="columns-chips" id="columnsChips"></div>
+    </div>
+  </div>
+
+  <!-- PASSO 2 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge">2</div>
+      <div>
+        <div class="card-title">Dados do Novo Cadastro</div>
+      </div>
+    </div>
+
+    <div class="fields-grid">
+
+      <!-- NOME -->
+      <div class="field-group full">
+        <label>Nome Completo</label>
+        <div class="input-wrap">
+          <input type="text" id="fNome" placeholder="Ex: Maria Fernanda Oliveira" oninput="updateBtn()">
+        </div>
+        <div class="field-hint">Busca pelo nome inteiro, primeiro nome e sobrenome separadamente</div>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="field-group">
+        <label>E-mail</label>
+        <div class="input-wrap">
+          <input type="text" id="fEmail" placeholder="Ex: corretor@email.com" oninput="updateBtn()">
+        </div>
+      </div>
+
+      <!-- TELEFONE -->
+      <div class="field-group">
+        <label>Telefone / Celular</label>
+        <div class="input-wrap">
+          <input type="text" id="fTelefone" placeholder="Ex: (11) 98765-4321" oninput="updateBtn()">
+        </div>
+        <div class="field-hint">Formatação ignorada na busca</div>
+      </div>
+
+      <!-- CEP -->
+      <div class="field-group">
+        <label>CEP</label>
+        <div class="input-wrap">
+          <input type="text" id="fCep" placeholder="Ex: 01310-100" maxlength="9" oninput="onCepInput(this)">
+          <div class="input-spinner" id="cepSpinner"></div>
+          <div class="input-status" id="cepStatus"></div>
+        </div>
+        <div class="field-hint" id="cepHint">Digite o CEP para preenchimento automático do endereço</div>
+      </div>
+
+      <!-- ENDEREÇO AUTO -->
+      <div class="address-block" id="addressBlock">
+        <div class="address-item">
+          <div class="address-item-label">Logradouro</div>
+          <div class="address-item-value" id="addrLogradouro">—</div>
+        </div>
+        <div class="address-item">
+          <div class="address-item-label">Bairro</div>
+          <div class="address-item-value" id="addrBairro">—</div>
+        </div>
+        <div class="address-item">
+          <div class="address-item-label">Cidade / UF</div>
+          <div class="address-item-value" id="addrCidade">—</div>
+        </div>
+      </div>
+
+      <!-- CRITERIO -->
+      <div class="field-group full" style="margin-top:4px;">
+        <label>Critério de correspondência</label>
+        <select id="criterio">
+          <option value="qualquer">Qualquer campo coincide (OR) — mais abrangente</option>
+          <option value="todos">Todos os campos preenchidos coincidem (AND) — mais restrito</option>
+        </select>
+      </div>
+
+    </div>
+
+    <button class="btn-verify" id="btnVerify" onclick="verificar()" disabled>
+      🔍 Verificar Vínculos na Base
+    </button>
+  </div>
+
+  <!-- RESULTADOS -->
+  <div id="results">
+    <div class="result-header">
+      <div class="result-title">Resultado da Verificação</div>
+      <div class="result-count" id="resultCount"></div>
+    </div>
+    <div class="summary-bar" id="summaryBar"></div>
+    <div id="resultBody"></div>
+    <div class="search-log" id="searchLog"></div>
+  </div>
+</main>
+
+<script>
+let baseData = [], baseColumns = [];
+let cepTimeout = null;
+let currentCepData = null;
+
+// ── CEP ────────────────────────────────────────────────────
+function onCepInput(input) {
+  // Auto-format
+  let v = input.value.replace(/\D/g, '').slice(0, 8);
+  if (v.length > 5) v = v.slice(0,5) + '-' + v.slice(5);
+  input.value = v;
+
+  clearTimeout(cepTimeout);
+  const digits = v.replace(/\D/g,'');
+
+  if (digits.length < 8) {
+    resetCepUI();
+    updateBtn();
+    return;
+  }
+
+  // Debounce 400ms
+  cepTimeout = setTimeout(() => fetchCep(digits), 400);
+  updateBtn();
+}
+
+function resetCepUI() {
+  currentCepData = null;
+  document.getElementById('cepSpinner').classList.remove('show');
+  document.getElementById('cepStatus').classList.remove('show');
+  document.getElementById('addressBlock').classList.remove('show');
+  const hint = document.getElementById('cepHint');
+  hint.className = 'field-hint';
+  hint.textContent = 'Digite o CEP para preenchimento automático do endereço';
+}
+
+async function fetchCep(digits) {
+  const spinner = document.getElementById('cepSpinner');
+  const status  = document.getElementById('cepStatus');
+  const hint    = document.getElementById('cepHint');
+  const block   = document.getElementById('addressBlock');
+
+  spinner.classList.add('show');
+  status.classList.remove('show');
+  block.classList.remove('show');
+
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${digits}/json/`);
+    const data = await res.json();
+
+    spinner.classList.remove('show');
+
+    if (data.erro) {
+      status.textContent = '✕';
+      status.classList.add('show');
+      hint.className = 'field-hint cep-error';
+      hint.textContent = 'CEP não encontrado. Verifique e tente novamente.';
+      currentCepData = null;
+    } else {
+      currentCepData = data;
+      status.textContent = '✓';
+      status.classList.add('show');
+      hint.className = 'field-hint cep-result';
+      hint.textContent = `${data.logradouro ? data.logradouro + ', ' : ''}${data.bairro ? data.bairro + ' · ' : ''}${data.localidade}/${data.uf}`;
+
+      document.getElementById('addrLogradouro').textContent = data.logradouro || '—';
+      document.getElementById('addrBairro').textContent     = data.bairro    || '—';
+      document.getElementById('addrCidade').textContent     = `${data.localidade} / ${data.uf}`;
+      block.classList.add('show');
+    }
+  } catch(e) {
+    spinner.classList.remove('show');
+    status.textContent = '✕';
+    status.classList.add('show');
+    hint.className = 'field-hint cep-error';
+    hint.textContent = 'Erro ao consultar o CEP. Verifique sua conexão.';
+    currentCepData = null;
+  }
+  updateBtn();
+}
+
+// ── CSV ────────────────────────────────────────────────────
+function handleCSV(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => parseCSV(e.target.result, file.name);
+  reader.readAsText(file, 'UTF-8');
+}
+
+function detectDelimiter(line) {
+  const c = {',':0,';':0,'\t':0};
+  for(const ch of line) if(c[ch]!==undefined) c[ch]++;
+  return Object.entries(c).sort((a,b)=>b[1]-a[1])[0][0];
+}
+
+function parseCSV(text, filename) {
+  const lines = text.trim().split(/\r?\n/).filter(l=>l.trim());
+  if (lines.length < 2) { alert('Arquivo sem dados suficientes.'); return; }
+  const delim = detectDelimiter(lines[0]);
+  const parseRow = row => row.split(delim).map(c=>c.trim().replace(/^"|"$/g,''));
+  baseColumns = parseRow(lines[0]);
+  baseData = lines.slice(1).map(l => {
+    const vals = parseRow(l);
+    const obj = {};
+    baseColumns.forEach((col,i) => obj[col] = vals[i]||'');
+    return obj;
+  });
+
+  document.getElementById('baseStatus').classList.add('show');
+  document.getElementById('baseInfoText').textContent = `${filename} — ${baseData.length} registros carregados`;
+  document.getElementById('baseInfoSub').textContent  = `${baseColumns.length} colunas · Delimitador: "${delim==='\t'?'TAB':delim}"`;
+  document.getElementById('columnsArea').style.display = 'block';
+  document.getElementById('columnsChips').innerHTML = baseColumns.map(c=>`<span class="chip">${c}</span>`).join('');
+  updateBtn();
+}
+
+function clearBase() {
+  baseData=[]; baseColumns=[];
+  document.getElementById('baseStatus').classList.remove('show');
+  document.getElementById('columnsArea').style.display='none';
+  document.getElementById('csvInput').value='';
+  document.getElementById('results').style.display='none';
+  updateBtn();
+}
+
+// ── HELPERS ────────────────────────────────────────────────
+function norm(s){ return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim(); }
+function digits(s){ return (s||'').replace(/\D/g,''); }
+
+function updateBtn() {
+  const hasBase  = baseData.length > 0;
+  const hasField = [
+    document.getElementById('fNome').value,
+    document.getElementById('fEmail').value,
+    document.getElementById('fTelefone').value,
+    document.getElementById('fCep').value,
+  ].some(v => v.trim() !== '');
+  document.getElementById('btnVerify').disabled = !(hasBase && hasField);
+}
+
+// ── COLUMN AUTO-DETECT ─────────────────────────────────────
+function buildColMap() {
+  const map = { nome:[], email:[], tel:[], cep:[], cidade:[], bairro:[], uf:[] };
+  const pat = {
+    nome:   /nome|razao|empresa|assessoria|corretor|cliente/i,
+    email:  /email|e-mail|mail/i,
+    tel:    /tel|fone|celular|whatsapp|phone|contato/i,
+    cep:    /cep|postal|zip/i,
+    cidade: /cidade|municipio|localidade/i,
+    bairro: /bairro|district/i,
+    uf:     /\buf\b|estado|state/i,
+  };
+  baseColumns.forEach(col => {
+    for(const [key,regex] of Object.entries(pat)) if(regex.test(col)) map[key].push(col);
+  });
+  return map;
+}
+
+// ── VERIFICAR ──────────────────────────────────────────────
+function verificar() {
+  const fNome     = document.getElementById('fNome').value.trim();
+  const fEmail    = document.getElementById('fEmail').value.trim();
+  const fTelefone = document.getElementById('fTelefone').value.trim();
+  const fCep      = digits(document.getElementById('fCep').value);
+  const criterio  = document.getElementById('criterio').value;
+
+  const colMap = buildColMap();
+  const matches = [];
+
+  // Tokens de nome para busca multi-parte
+  const nomeTokens = fNome ? norm(fNome).split(/\s+/).filter(t=>t.length>1) : [];
+
+  baseData.forEach((row, idx) => {
+    const hits = {}; // campo → true/false
+
+    // NOME: busca nome inteiro OU qualquer token (nome/sobrenome)
+    if (fNome) {
+      const cols = colMap.nome.length ? colMap.nome : baseColumns;
+      hits.nome = cols.some(col => {
+        const cell = norm(row[col]);
+        // Inteiro
+        if (cell.includes(norm(fNome))) return true;
+        // Qualquer token (nome ou sobrenome)
+        return nomeTokens.some(t => cell.includes(t));
+      });
+    }
+
+    // EMAIL: correspondência exata (ignorar case)
+    if (fEmail) {
+      const cols = colMap.email.length ? colMap.email : baseColumns;
+      hits.email = cols.some(col => norm(row[col]) === norm(fEmail));
+    }
+
+    // TELEFONE: dígitos
+    if (fTelefone) {
+      const tel = digits(fTelefone);
+      const cols = colMap.tel.length ? colMap.tel : baseColumns;
+      hits.tel = cols.some(col => {
+        const d = digits(row[col]);
+        return d !== '' && d === tel;
+      });
+    }
+
+    // CEP: dígitos
+    if (fCep) {
+      const colsCep    = colMap.cep.length    ? colMap.cep    : [];
+      const colsCidade = colMap.cidade.length ? colMap.cidade : [];
+      const colsBairro = colMap.bairro.length ? colMap.bairro : [];
+      const colsUf     = colMap.uf.length     ? colMap.uf     : [];
+
+      let cepHit = false;
+      if (colsCep.length) cepHit = colsCep.some(col => digits(row[col]) === fCep);
+
+      // Fallback: cidade+UF se CEP não mapeado mas temos dados do ViaCEP
+      if (!cepHit && currentCepData) {
+        const cidade = norm(currentCepData.localidade);
+        const uf     = norm(currentCepData.uf);
+        const cidadeHit = colsCidade.some(col => norm(row[col]).includes(cidade));
+        const ufHit     = colsUf.some(col => norm(row[col]) === uf);
+        cepHit = cidadeHit || ufHit;
+      }
+      hits.cep = cepHit;
+    }
+
+    // Avaliar critério
+    const hitsArr = Object.values(hits);
+    const anyHit  = hitsArr.some(Boolean);
+    const allHit  = hitsArr.every(Boolean);
+    const include = criterio === 'qualquer' ? anyHit : allHit;
+
+    if (include) matches.push({ row, hits });
+  });
+
+  renderResults({ fNome, fEmail, fTelefone, fCep }, matches, criterio);
+}
+
+// ── RENDER ─────────────────────────────────────────────────
+function renderResults(params, matches, criterio) {
+  const el = document.getElementById('results');
+  el.style.display = 'block';
+  void el.offsetWidth; // reflow para reiniciar animação
+  el.style.animation = 'none';
+  requestAnimationFrame(() => el.style.animation = '');
+
+  document.getElementById('resultCount').textContent =
+    `${matches.length} correspondência${matches.length!==1?'s':''} em ${baseData.length} registros`;
+
+  document.getElementById('summaryBar').innerHTML = `
+    <div class="summary-pill"><div class="num">${baseData.length}</div><div class="lbl">Na base</div></div>
+    <div class="summary-pill ${matches.length>0?'alert':'ok'}">
+      <div class="num">${matches.length}</div><div class="lbl">Vínculos</div>
+    </div>
+    <div class="summary-pill">
+      <div class="num">${Object.values(params).filter(v=>v).length}</div>
+      <div class="lbl">Critérios usados</div>
+    </div>
+  `;
+
+  const body = document.getElementById('resultBody');
+
+  if (matches.length === 0) {
+    body.innerHTML = `
+      <div class="result-no-match">
+        <div class="icon">✅</div>
+        <h3>Nenhum vínculo encontrado</h3>
+        <p>Os dados informados não correspondem a nenhum registro na base de corretores.</p>
+      </div>`;
+  } else {
+    body.innerHTML = `
+      <div class="result-has-match">
+        <div class="result-has-match-header">
+          <span style="font-size:22px">⚠️</span>
+          <h3>${matches.length} vínculo${matches.length!==1?'s':''} encontrado${matches.length!==1?'s':''} — revisar antes de prosseguir</h3>
+        </div>
+        ${matches.map(m => renderCard(m)).join('')}
+      </div>`;
+  }
+
+  // Log
+  const cepLabel = params.fCep
+    ? params.fCep + (currentCepData ? ` (${currentCepData.localidade}/${currentCepData.uf})` : '')
+    : '—';
+
+  document.getElementById('searchLog').innerHTML = `
+    <div class="search-log-title">Parâmetros da verificação</div>
+    <div class="log-item"><span class="log-key">Nome</span><span class="log-val">${params.fNome||'—'}</span></div>
+    <div class="log-item"><span class="log-key">E-mail</span><span class="log-val">${params.fEmail||'—'}</span></div>
+    <div class="log-item"><span class="log-key">Telefone</span><span class="log-val">${params.fTelefone||'—'}</span></div>
+    <div class="log-item"><span class="log-key">CEP</span><span class="log-val">${cepLabel}</span></div>
+    <div class="log-item"><span class="log-key">Critério</span><span class="log-val">${criterio==='qualquer'?'Qualquer campo (OR)':'Todos os campos (AND)'}</span></div>
+    <div class="log-item"><span class="log-key">Data/hora</span><span class="log-val">${new Date().toLocaleString('pt-BR')}</span></div>
+  `;
+
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderCard(m) {
+  const { row, hits } = m;
+  const display = baseColumns.slice(0, Math.min(8, baseColumns.length));
+  const colMap = buildColMap();
+
+  // Quais colunas tiveram hit
+  const hitCols = new Set();
+  if (hits.nome)  colMap.nome.forEach(c=>hitCols.add(c));
+  if (hits.email) colMap.email.forEach(c=>hitCols.add(c));
+  if (hits.tel)   colMap.tel.forEach(c=>hitCols.add(c));
+  if (hits.cep)   [...colMap.cep,...colMap.cidade,...colMap.uf].forEach(c=>hitCols.add(c));
+
+  const tags = [
+    hits.nome  ? '<span class="match-tag nome">Nome</span>'    : '',
+    hits.email ? '<span class="match-tag email">E-mail</span>' : '',
+    hits.tel   ? '<span class="match-tag tel">Telefone</span>' : '',
+    hits.cep   ? '<span class="match-tag cep">CEP/Cidade</span>'  : '',
+  ].filter(Boolean).join('');
+
+  return `
+    <div class="match-card">
+      <div class="match-row">
+        ${display.map(col => `
+          <div class="match-field">
+            <div class="match-field-label">${col}</div>
+            <div class="match-field-value ${hitCols.has(col)?'hit':''}">${row[col]||'—'}</div>
+          </div>`).join('')}
+      </div>
+      <div class="match-tags">${tags}</div>
+    </div>`;
+}
+
+// ── DRAG & DROP ────────────────────────────────────────────
+const zone = document.getElementById('uploadZone');
+zone.addEventListener('dragover', e=>{ e.preventDefault(); zone.classList.add('drag-over'); });
+zone.addEventListener('dragleave', ()=>zone.classList.remove('drag-over'));
+zone.addEventListener('drop', e=>{
+  e.preventDefault(); zone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.name.endsWith('.csv')) {
+    const r = new FileReader();
+    r.onload = ev => parseCSV(ev.target.result, file.name);
+    r.readAsText(file, 'UTF-8');
+  }
+});
+</script>
+</body>
+</html>
