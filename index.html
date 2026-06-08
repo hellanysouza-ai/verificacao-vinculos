@@ -334,7 +334,7 @@
     </div>
 
     <div class="req-note">
-      ⚠️ Preencha <strong>todos os campos</strong> para que a análise seja realizada em todos os critérios simultaneamente.
+      ℹ️ Preencha um ou mais campos. <strong>Todos os campos preenchidos serão usados como filtro simultaneamente.</strong>
     </div>
 
     <div class="fields-grid">
@@ -386,13 +386,7 @@
         <div><div class="addr-lbl">Cidade / UF</div><div class="addr-val" id="addrCidade">—</div></div>
       </div>
 
-      <div class="field-group full">
-        <label>Critério de correspondência</label>
-        <select id="criterio">
-          <option value="qualquer">Qualquer campo coincide (OR) — mais abrangente</option>
-          <option value="todos">Todos os campos preenchidos coincidem (AND) — mais restrito</option>
-        </select>
-      </div>
+
 
     </div>
 
@@ -680,7 +674,6 @@ function verificar(){
   const fEmail = document.getElementById('fEmail').value.trim();
   const fTel   = document.getElementById('fTel').value.trim();
   const fCep   = digs(document.getElementById('fCep').value);
-  const crit   = document.getElementById('criterio').value;
 
   const map = buildMap('corretores');
   const nomeTokens = fNome ? norm(fNome).split(/\s+/).filter(t=>t.length>1) : [];
@@ -738,9 +731,9 @@ function verificar(){
       hits.cep=h;
     }
 
+    // Cada campo preenchido é obrigatório — todos precisam bater
     const hArr=Object.values(hits);
-    const anyH=hArr.some(Boolean), allH=hArr.every(Boolean);
-    const include = crit==='qualquer' ? anyH : allH;
+    const include = hArr.length > 0 && hArr.every(Boolean);
 
     if(include){
       // Busca pagamento: usa nome e documento do registro encontrado para localizar Cód Corretor na base de comissões
@@ -753,11 +746,11 @@ function verificar(){
     }
   });
 
-  renderResults({fNome,fDoc,fEmail,fTel,fCep}, matches, crit);
+  renderResults({fNome,fDoc,fEmail,fTel,fCep}, matches);
 }
 
 // ── RENDER ────────────────────────────────────────────────
-function renderResults(params, matches, crit){
+function renderResults(params, matches){
   const el=document.getElementById('results');
   el.style.display='block'; void el.offsetWidth;
   el.style.animation='none'; requestAnimationFrame(()=>el.style.animation='');
@@ -797,7 +790,6 @@ function renderResults(params, matches, crit){
     <div class="log-item"><span class="log-key">E-mail</span><span class="log-val">${params.fEmail||'—'}</span></div>
     <div class="log-item"><span class="log-key">Telefone</span><span class="log-val">${params.fTel||'—'}</span></div>
     <div class="log-item"><span class="log-key">CEP</span><span class="log-val">${cepLabel}</span></div>
-    <div class="log-item"><span class="log-key">Critério</span><span class="log-val">${crit==='qualquer'?'Qualquer campo (OR)':'Todos os campos (AND)'}</span></div>
     <div class="log-item"><span class="log-key">Data/hora</span><span class="log-val">${new Date().toLocaleString('pt-BR')}</span></div>
   `;
   el.scrollIntoView({behavior:'smooth',block:'start'});
